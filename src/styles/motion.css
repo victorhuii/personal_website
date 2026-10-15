@@ -1,0 +1,78 @@
+/* Motion timings inspired by the referenced design system. Edit them here. */
+:root {
+  --motion-150: 150ms;
+  --motion-200: 200ms;
+  --motion-300: 300ms;
+  --motion-500: 500ms;
+  --motion-out: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* Scroll reveal and project cards start when they enter the viewport. */
+.scroll-reveal {
+  transition: opacity var(--motion-500) var(--motion-out), transform var(--motion-500) var(--motion-out);
+}
+.project-card { animation: none; transition: transform var(--motion-300) var(--motion-out), box-shadow var(--motion-300) var(--motion-out); }
+.scroll-reveal.in .project-card { animation: projectCardEnter var(--motion-500) var(--motion-out) both; }
+.scroll-reveal.in .project-pill { animation: fadeSlideUp var(--motion-300) var(--motion-out) .12s both; }
+
+/* Filtered covers remount on year changes, so this animation plays each time. */
+.shelf-entry { animation: shelfItemFadeUp 400ms var(--motion-out) both; }
+.shelf-cover { transition: transform var(--motion-300) var(--motion-out), box-shadow var(--motion-300) var(--motion-out); }
+.shelf-kind, .shelf-year, .community-tab, .top-links a {
+  transition: color var(--motion-200) ease-out, background-color var(--motion-200) ease-out, box-shadow var(--motion-200) ease-out;
+}
+
+/* Lightbox: dim the page, scale the dialog, then reveal its content. */
+.scrim { animation: fadeIn var(--motion-200) ease-out both; }
+.modal { animation: modalScaleIn var(--motion-300) var(--motion-out) both; }
+.modal-body > .modal-mark,
+.modal-body > .modal-title,
+.modal-body > .modal-meta,
+.modal-body > .modal-media,
+.modal-body > .modal-cols { animation: fadeSlideUp var(--motion-300) var(--motion-out) both; }
+.modal-body > .modal-title { animation-delay: .04s; }
+.modal-body > .modal-meta { animation-delay: .08s; }
+.modal-body > .modal-media { animation-delay: .12s; }
+.modal-body > .modal-cols { animation-delay: .16s; }
+.modal-media .cover { animation: scaleIn var(--motion-300) var(--motion-out) .16s both; }
+.icon-btn.right { animation: fadeSlideDown var(--motion-300) var(--motion-out) .1s both; }
+
+/* Captions gently appear when a community tab is selected. */
+.community-panel:not([hidden]) .community-heading,
+.community-panel:not([hidden]) .polaroid-caption { animation: fadeSlideUp var(--motion-300) var(--motion-out) both; }
+.community-panel:not([hidden]) .polaroid-card:nth-child(2) .polaroid-caption { animation-delay: .05s; }
+.community-panel:not([hidden]) .polaroid-card:nth-child(3) .polaroid-caption { animation-delay: .1s; }
+.community-panel:not([hidden]) .polaroid-card:nth-child(4) .polaroid-caption { animation-delay: .15s; }
+
+/* Keep the identity header white; the gradient moves only on placeholder art. */
+.cover-fallback { animation: gradient-bg 18s ease infinite; }
+.colon { animation: blink 1s steps(2, start) infinite; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .shelf-entry,
+  .scroll-reveal.in .project-card,
+  .scroll-reveal.in .project-pill,
+  .scrim,
+  .modal,
+  .modal-body > *,
+  .modal-media .cover,
+  .icon-btn.right,
+  .community-panel:not([hidden]) .community-heading,
+  .community-panel:not([hidden]) .polaroid-caption,
+  .cover-fallback,
+  .colon { animation: none !important; }
+}

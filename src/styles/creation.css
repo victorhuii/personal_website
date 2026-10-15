@@ -1,0 +1,1137 @@
+.creation-page {
+  --creation-paper: #f7f7f5;
+  --creation-ink: #171717;
+  --creation-muted: #555551;
+
+  min-height: 100svh;
+
+  /*
+  Matches the spacing in your screenshot:
+  ~60px sides on desktop,
+  ~23px top,
+  ~22px bottom.
+  */
+  padding:
+    23px
+    clamp(20px, 4.5vw, 64px)
+    22px;
+
+  background:
+    transparent;
+
+  color:
+    var(--creation-ink);
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+
+  cursor: none;
+}
+
+.creation-page * {
+  box-sizing: border-box;
+  cursor: none !important;
+}
+
+.creation-page--dark {
+  --creation-paper: #171717;
+  --creation-ink: #f3f0e9;
+  --creation-muted: #b9b7b1;
+}
+
+.creation-page a {
+  color: inherit;
+}
+
+/*
+=====================================
+FLOATING BACKGROUND LAYER
+=====================================
+*/
+
+.creation-background-shell {
+  position: relative;
+
+  min-height: 100svh;
+
+  background:
+    #f7f7f5;
+
+  isolation:
+    isolate;
+
+  overflow-x:
+    hidden;
+}
+
+
+/*
+Everything in the Creation page
+sits above FloatingBackground.
+*/
+
+.creation-background-shell
+.creation-page {
+  position: relative;
+
+  z-index: 1;
+
+  background:
+    transparent;
+}
+
+
+/*
+Dark mode should cover the gray
+floating background completely.
+
+Otherwise gray shapes would remain
+visible through the dark page.
+*/
+
+.creation-background-shell
+.creation-page--dark {
+  background:
+    #171717;
+}
+
+/*
+=====================================
+GOOGLY CURSOR
+=====================================
+*/
+
+.creation-googly-cursor {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 34px !important;
+  height: 34px !important;
+
+  min-width: 34px !important;
+  min-height: 34px !important;
+
+  max-width: 34px !important;
+  max-height: 34px !important;
+
+  display: block;
+
+  overflow: visible;
+
+  pointer-events: none;
+
+  z-index: 999999;
+
+  opacity: 0;
+
+  transform:
+    translate3d(
+      -100px,
+      -100px,
+      0
+    );
+
+  transition:
+    opacity 0.12s ease;
+
+  will-change:
+    transform;
+}
+
+.creation-googly-cursor-ring {
+  fill:
+    rgba(
+      247,
+      247,
+      245,
+      0.72
+    );
+
+  stroke:
+    var(--creation-ink);
+
+  stroke-width: 0.9;
+}
+
+.creation-page--dark
+.creation-googly-cursor-ring {
+  fill:
+    rgba(
+      23,
+      23,
+      23,
+      0.72
+    );
+}
+
+.creation-googly-cursor-dot {
+  fill:
+    var(--creation-ink);
+
+  will-change:
+    transform;
+
+  transform-origin:
+    17px 17px;
+}
+
+
+/*
+=====================================
+HEADER
+=====================================
+*/
+
+.creation-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+  gap: 30px;
+
+  /*
+  This is important.
+
+  In your screenshot the artwork box
+  begins around 80px from the top:
+  23px page top
+  + 40px logo
+  + ~20px gap
+  */
+  padding:
+    0 0 20px;
+}
+
+.creation-emblem {
+  width: 40px;
+  height: 40px;
+
+  flex:
+    0 0 40px;
+
+  border:
+    1px solid
+    currentColor;
+
+  border-radius:
+    50%;
+
+  display: grid;
+
+  place-items: center;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-style:
+    italic;
+
+  font-size:
+    19px;
+
+  line-height:
+    1;
+
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.creation-emblem:hover {
+  transform:
+    rotate(-14deg)
+    scale(1.08);
+
+  background:
+    var(--creation-ink);
+
+  color:
+    var(--creation-paper);
+}
+
+.creation-header nav {
+  display: flex;
+
+  align-items: center;
+
+  gap:
+    clamp(
+      15px,
+      2.5vw,
+      32px
+    );
+}
+
+.creation-header nav a {
+  font-size:
+    13px;
+
+  letter-spacing:
+    -0.01em;
+
+  font-weight:
+    500;
+
+  text-decoration:
+    none;
+
+  transition:
+    opacity 0.2s ease;
+}
+
+.creation-header nav a:hover {
+  opacity:
+    0.48;
+}
+
+
+/*
+=====================================
+MAIN ARTWORK FRAME
+=====================================
+*/
+
+.creation-frame {
+  position: relative;
+
+  /*
+  THIS is what makes it naturally
+  consume the remaining page height.
+
+  Don't use calc(100svh - 43px).
+  */
+  flex:
+    1 1 auto;
+
+  width:
+    100%;
+
+  min-height:
+    min(
+      770px,
+      78svh
+    );
+
+  border:
+    1px solid
+    var(--creation-ink);
+
+  overflow:
+    hidden;
+
+  isolation:
+    isolate;
+}
+
+
+/*
+Actual canvas completely fills
+the bordered artwork frame.
+*/
+
+.creation-ascii {
+  position: absolute;
+
+  inset: 0;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  display: block;
+
+  z-index:
+    0;
+}
+
+
+/*
+=====================================
+FRAME LABEL
+=====================================
+*/
+
+.creation-frame-label {
+  position: absolute;
+
+  z-index: 1;
+
+  top:
+    19px;
+
+  left:
+    18px;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size:
+    15px;
+
+  letter-spacing:
+    -0.04em;
+
+  pointer-events:
+    none;
+}
+
+
+/*
+=====================================
+TOOLS
+=====================================
+*/
+
+.creation-tools {
+  position: absolute;
+
+  z-index: 3;
+
+  right:
+    17px;
+
+  top:
+    16px;
+
+  display: flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  gap:
+    14px;
+}
+
+.creation-tools button {
+  width:
+    34px;
+
+  height:
+    34px;
+
+  border:
+    1px solid
+    var(--creation-ink);
+
+  border-radius:
+    50%;
+
+  color:
+    var(--creation-ink);
+
+  background:
+    var(--creation-paper);
+
+  font-size:
+    22px;
+
+  line-height:
+    1;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.creation-tools button:hover {
+  transform:
+    rotate(45deg);
+}
+
+.creation-tools input {
+  appearance:
+    slider-vertical;
+
+  writing-mode:
+    vertical-lr;
+
+  direction:
+    rtl;
+
+  width:
+    22px;
+
+  height:
+    95px;
+
+  accent-color:
+    var(--creation-ink);
+}
+
+
+/*
+=====================================
+INTRO TEXT
+=====================================
+*/
+
+.creation-intro {
+  position: absolute;
+
+  z-index: 2;
+
+  left:
+    clamp(
+      30px,
+      7.7%,
+      110px
+    );
+
+  bottom:
+    clamp(
+      48px,
+      8%,
+      86px
+    );
+
+  max-width:
+    min(
+      570px,
+      70%
+    );
+
+  pointer-events:
+    none;
+}
+
+.creation-kicker {
+  font-size:
+    10px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    0.16em;
+
+  margin-bottom:
+    13px;
+}
+
+.creation-intro h1 {
+  font-size:
+    clamp(
+      68px,
+      9vw,
+      145px
+    );
+
+  font-weight:
+    400;
+
+  line-height:
+    0.9;
+
+  letter-spacing:
+    -0.075em;
+
+  margin:
+    0 0
+    22px
+    -0.065em;
+}
+
+.creation-cursor {
+  font-size:
+    0.65em;
+}
+
+.creation-subtitle {
+  font-size:
+    clamp(
+      17px,
+      2vw,
+      23px
+    );
+
+  line-height:
+    1.3;
+
+  margin-bottom:
+    15px;
+}
+
+.creation-description {
+  font-size:
+    clamp(
+      13px,
+      1.2vw,
+      15px
+    );
+
+  line-height:
+    1.55;
+
+  max-width:
+    540px;
+
+  color:
+    var(--creation-muted);
+}
+
+.creation-enter {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    12px;
+
+  margin-top:
+    22px;
+
+  border-bottom:
+    3px solid
+    var(--creation-ink);
+
+  padding-bottom:
+    7px;
+
+  font-size:
+    13px;
+
+  font-weight:
+    600;
+
+  pointer-events:
+    auto;
+
+  text-decoration:
+    none;
+
+  transition:
+    gap 0.25s ease;
+}
+
+.creation-enter:hover {
+  gap:
+    20px;
+}
+
+.creation-coordinate {
+  position: absolute;
+
+  right:
+    18px;
+
+  bottom:
+    18px;
+
+  z-index:
+    1;
+
+  font:
+    9px
+    ui-monospace,
+    Menlo,
+    monospace;
+
+  letter-spacing:
+    0.08em;
+
+  color:
+    var(--creation-muted);
+
+  pointer-events:
+    none;
+}
+
+
+/*
+=====================================
+ORIGINAL PAGE FOOTER
+=====================================
+*/
+
+.creation-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    16px;
+
+  padding-top:
+    15px;
+
+  color:
+    var(--creation-muted);
+
+  font:
+    11px
+    ui-monospace,
+    Menlo,
+    monospace;
+}
+
+.creation-footer a {
+  border-bottom:
+    1px solid
+    currentColor;
+}
+
+
+/*
+=====================================
+ASCII LANDSCAPE STUDIES
+=====================================
+
+IMPORTANT:
+
+These now use essentially the SAME
+outside spacing as the screenshot /
+original creation page.
+
+We are NOT forcing these almost
+edge-to-edge anymore.
+=====================================
+*/
+
+.creation-page--study {
+  /*
+  Same desktop spacing as original.
+  */
+  padding:
+    23px
+    clamp(20px, 4.5vw, 64px)
+    22px;
+
+  cursor:
+    auto;
+}
+
+.creation-page--study * {
+  cursor:
+    auto !important;
+}
+
+
+/*
+Same header proportions
+as your original screenshot.
+*/
+
+.creation-page--study
+.creation-header {
+  padding:
+    0 0 20px;
+}
+
+
+/*
+Keep same 40px circle/logo.
+
+Earlier I shrank this.
+That altered the entire vertical
+spacing, so we're restoring it.
+*/
+
+.creation-page--study
+.creation-emblem {
+  width:
+    40px;
+
+  height:
+    40px;
+
+  min-width:
+    40px;
+
+  min-height:
+    40px;
+
+  font-size:
+    19px;
+}
+
+
+/*
+=====================================
+STUDY CANVAS SIZE
+
+THIS is the section you change later
+if you want the canvas larger/smaller.
+=====================================
+*/
+
+.creation-page--study
+.creation-frame--study {
+  /*
+  flex: 1 makes the box use all
+  remaining space naturally.
+
+  This is why the screenshot has
+  such balanced top/bottom spacing.
+  */
+
+  flex:
+    1 1 auto;
+
+  width:
+    100%;
+
+  /*
+  Minimum only.
+
+  It can grow naturally to fill the
+  available screen.
+  */
+
+  min-height:
+    min(
+      770px,
+      78svh
+    );
+
+  border:
+    1px solid
+    var(--creation-ink);
+
+  overflow:
+    hidden;
+}
+
+.creation-page--study
+.creation-frame--study
+.creation-ascii {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  display:
+    block;
+}
+
+
+/*
+=====================================
+STUDY TEXT
+
+Keep this slightly more compact so
+the landscape remains visible.
+=====================================
+*/
+
+.creation-page--study
+.creation-intro--study {
+  left:
+    clamp(
+      30px,
+      6.2%,
+      88px
+    );
+
+  bottom:
+    clamp(
+      45px,
+      7%,
+      76px
+    );
+
+  max-width:
+    min(
+      550px,
+      62%
+    );
+}
+
+.creation-page--study
+.creation-intro--study h1 {
+  font-size:
+    clamp(
+      58px,
+      7vw,
+      112px
+    );
+
+  margin-bottom:
+    18px;
+}
+
+.creation-page--study
+.creation-subtitle {
+  font-size:
+    clamp(
+      16px,
+      1.7vw,
+      21px
+    );
+
+  margin-bottom:
+    12px;
+}
+
+.creation-page--study
+.creation-description {
+  max-width:
+    490px;
+
+  font-size:
+    clamp(
+      12px,
+      1.05vw,
+      14px
+    );
+
+  line-height:
+    1.52;
+}
+
+
+/*
+Previous / next page controls.
+*/
+
+.creation-study-links {
+  display: flex;
+
+  align-items:
+    flex-end;
+
+  gap:
+    22px;
+
+  flex-wrap:
+    wrap;
+
+  pointer-events:
+    auto;
+}
+
+.creation-study-link {
+  font:
+    11px
+    ui-monospace,
+    Menlo,
+    monospace;
+
+  color:
+    var(--creation-muted) !important;
+
+  border-bottom:
+    1px solid
+    currentColor;
+
+  padding-bottom:
+    5px;
+
+  text-decoration:
+    none;
+}
+
+.creation-page--study
+.creation-enter {
+  margin-top:
+    17px;
+}
+
+
+/*
+=====================================
+MOBILE
+=====================================
+*/
+
+@media (
+  max-width: 700px
+) {
+  .creation-page {
+    padding:
+      17px
+      16px
+      16px;
+  }
+
+  .creation-header {
+    padding-bottom:
+      17px;
+  }
+
+  .creation-header nav {
+    gap:
+      10px;
+
+    flex-wrap:
+      wrap;
+
+    justify-content:
+      flex-end;
+  }
+
+  .creation-header nav a {
+    font-size:
+      10px;
+  }
+
+  .creation-frame {
+    min-height:
+      74svh;
+  }
+
+  .creation-intro {
+    max-width:
+      calc(
+        100% - 50px
+      );
+
+    left:
+      24px;
+
+    bottom:
+      45px;
+  }
+
+  .creation-intro h1 {
+    font-size:
+      clamp(
+        56px,
+        15vw,
+        92px
+      );
+  }
+
+  .creation-description {
+    max-width:
+      320px;
+  }
+
+  .creation-coordinate {
+    display:
+      none;
+  }
+
+  .creation-footer {
+    font-size:
+      9px;
+  }
+
+
+  /*
+  STUDY MOBILE
+  */
+
+  .creation-page--study {
+    padding:
+      17px
+      16px
+      16px;
+  }
+
+  .creation-page--study
+  .creation-header {
+    padding-bottom:
+      17px;
+  }
+
+  .creation-page--study
+  .creation-frame--study {
+    min-height:
+      74svh;
+  }
+
+  .creation-page--study
+  .creation-intro--study {
+    max-width:
+      calc(
+        100% - 44px
+      );
+
+    left:
+      22px;
+
+    bottom:
+      40px;
+  }
+
+  .creation-page--study
+  .creation-intro--study h1 {
+    font-size:
+      clamp(
+        48px,
+        13vw,
+        72px
+      );
+  }
+}
+
+
+/*
+=====================================
+TOUCH
+=====================================
+*/
+
+@media (
+  pointer: coarse
+) {
+  .creation-page,
+  .creation-page * {
+    cursor:
+      auto !important;
+  }
+
+  .creation-googly-cursor {
+    display:
+      none;
+  }
+}
+
+
+/*
+=====================================
+REDUCED MOTION
+=====================================
+*/
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .creation-page,
+  .creation-emblem,
+  .creation-tools button,
+  .creation-enter {
+    transition:
+      none;
+  }
+}

@@ -1,0 +1,58 @@
+.ripple-page { min-height: max(850px, 100svh); position: relative; overflow: hidden; isolation: isolate; background: #030611; color: #dce8ff; font-family: var(--font); }
+.ripple-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
+.ripple-page a { color: inherit; }
+.ripple-page button { color: inherit; cursor: pointer; font: inherit; }
+.ripple-page button:disabled { opacity: .4; cursor: default; }
+.ripple-header { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 24px clamp(24px, 5vw, 80px); gap: 20px; pointer-events: none; }
+.ripple-header a { pointer-events: auto; }
+.ripple-brand { display: flex; align-items: center; gap: 16px; }
+.ripple-brand img { width: 93px; height: auto; filter: invert(1); mix-blend-mode: screen; }
+.ripple-brand span { font-size: 9px; letter-spacing: .16em; color: #8f9bb8; }
+.ripple-header nav { display: flex; gap: 4px; padding: 5px; border: 1px solid #648bff38; border-radius: 99px; background: #10182c99; backdrop-filter: blur(12px); }
+.ripple-header nav a { font-size: 11px; padding: 7px 13px; border-radius: 99px; }
+.ripple-header nav a[aria-current], .ripple-header nav a:hover { background: #29479370; color: #fff; }
+.ripple-heading { position: absolute; z-index: 1; top: 143px; left: clamp(24px, 5vw, 80px); pointer-events: none; }
+.ripple-eyebrow { font-size: 9px; letter-spacing: .18em; color: #97afdf; display: flex; align-items: center; gap: 8px; }
+.ripple-eyebrow i { height: 5px; width: 5px; background: #537aff; border-radius: 50%; box-shadow: 0 0 12px #4875ff; }
+.ripple-heading h1 { font-size: clamp(34px, 4.3vw, 65px); line-height: 1.03; font-weight: 400; letter-spacing: -.055em; margin-top: 19px; }
+.ripple-heading em { font-family: Georgia, serif; font-weight: 400; color: #8aaeff; }
+.ripple-aside { position: absolute; top: 172px; right: clamp(24px, 5vw, 80px); color: #8b9dbf; font-size: 12px; line-height: 1.6; pointer-events: none; }
+.ripple-bottom { position: absolute; z-index: 2; bottom: 20px; left: clamp(24px, 5vw, 80px); right: clamp(24px, 5vw, 80px); pointer-events: none; }
+.ripple-controls { display: flex; justify-content: center; position: relative; margin-bottom: 23px; align-items: center; gap: 20px; }
+.ripple-shapes { display: flex; border: 1px solid #5276d54a; border-radius: 99px; padding: 5px; background: #0a1023ab; backdrop-filter: blur(12px); pointer-events: auto; }
+.ripple-shapes button { border: 0; background: transparent; border-radius: 99px; padding: 10px 19px; text-transform: capitalize; font-size: 12px; display: flex; gap: 10px; align-items: center; transition: background .25s ease, box-shadow .25s ease; }
+.ripple-shapes button small { font-size: 8px; color: #8b9dbc; }
+.ripple-shapes button[aria-pressed="true"] { background: #315ef3; box-shadow: 0 0 24px #2356ff65; color: white; }
+.ripple-shapes button[aria-pressed="true"] small { color: #c4d4ff; }
+.ripple-playback { position: absolute; right: 0; display: flex; gap: 12px; pointer-events: auto; }
+.ripple-playback button { background: none; border: 0; padding: 8px 0; font-size: 10px; color: #99acd5; }
+.ripple-playback button:hover { color: white; }
+.ripple-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+.ripple-cards > div { border: 1px solid #738fe246; border-radius: 14px; padding: 20px 23px; background: linear-gradient(145deg, #22489750, #0e17368f); backdrop-filter: blur(8px); }
+.ripple-cards span { font-size: 8px; letter-spacing: .14em; color: #7f9dd8; }
+.ripple-cards h2 { font-size: 15px; font-weight: 500; color: #d7e5ff; margin: 13px 0 7px; letter-spacing: -.02em; }
+.ripple-cards p { font-size: 11px; color: #8fa4cc; line-height: 1.6; max-width: 255px; }
+.ripple-bottom footer { display: flex; justify-content: space-between; padding-top: 18px; color: #8395b9; font-size: 9px; letter-spacing: .1em; }
+.ripple-bottom footer a { pointer-events: auto; letter-spacing: 0; }
+@media (max-width: 1000px) { .ripple-playback { position: static; } .ripple-controls { flex-wrap: wrap; } .ripple-aside { display: none; } .ripple-heading h1 { font-size: 42px; } }
+@media (max-width: 700px) {
+  .ripple-page { min-height: max(820px, 100svh); }
+  .ripple-header { padding: 18px 20px; }
+  .ripple-brand span { display: none; }
+  .ripple-brand img { width: 72px; }
+  .ripple-header nav a { padding: 6px 9px; font-size: 10px; }
+  .ripple-heading { top: 112px; left: 24px; }
+  .ripple-heading h1 { font-size: 37px; }
+  .ripple-eyebrow { font-size: 8px; }
+  .ripple-bottom { left: 20px; right: 20px; bottom: 20px; }
+  .ripple-controls { gap: 6px; margin-bottom: 15px; }
+  .ripple-shapes button { padding: 9px 16px; }
+  .ripple-playback { width: 100%; justify-content: center; }
+  .ripple-cards { grid-template-columns: 1fr; }
+  .ripple-cards > div { padding: 13px 17px; }
+  .ripple-cards > div:not(:first-child) { display: none; }
+  .ripple-cards h2 { margin-top: 7px; }
+  .ripple-cards p { max-width: none; }
+  .ripple-bottom footer { font-size: 8px; letter-spacing: .025em; gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .ripple-shapes button { transition: none; } }

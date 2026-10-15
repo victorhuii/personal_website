@@ -1,0 +1,929 @@
+/*
+=====================================
+LANDING PAGE ROOT
+=====================================
+*/
+
+.landing-root {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 100svh;
+
+  margin: 0;
+
+  padding: 0;
+
+  background: #ffffff;
+
+  color: #171717;
+}
+
+
+/*
+=====================================
+LANDING HERO
+=====================================
+
+KEEPING EXACT SAME DIMENSIONS.
+*/
+
+.landing-hero {
+  position: relative;
+
+  width: 100%;
+
+  height: 100svh;
+
+  margin: 0;
+
+  padding:
+    23px
+    clamp(
+      20px,
+      4.5vw,
+      64px
+    )
+    0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  --creation-paper: #ffffff;
+  --creation-ink: #171717;
+}
+
+
+.landing-hero * {
+  box-sizing: border-box;
+}
+
+
+/*
+=====================================
+TOP BAR
+=====================================
+*/
+
+.landing-topbar {
+  height: 40px;
+
+  min-height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin:
+    0
+    0
+    20px;
+
+  padding: 0;
+
+  flex:
+    0 0 auto;
+}
+
+
+/*
+=====================================
+LOGO
+=====================================
+*/
+
+.landing-mark {
+  width: 40px;
+
+  height: 40px;
+
+  flex:
+    0 0
+    40px;
+
+  display: grid;
+
+  place-items: center;
+
+  border:
+    1px solid
+    #171717;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  color: #171717;
+
+  text-decoration: none;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 18px;
+
+  font-style: italic;
+
+  line-height: 1;
+
+  transition:
+    transform
+      220ms ease,
+    background-color
+      220ms ease,
+    color
+      220ms ease;
+}
+
+
+.landing-mark:hover {
+  transform:
+    rotate(
+      -12deg
+    );
+
+  background: #171717;
+
+  color: #ffffff;
+}
+
+
+/*
+=====================================
+TOP NAV
+=====================================
+*/
+
+.landing-nav {
+  display: flex;
+
+  align-items: center;
+
+  gap:
+    clamp(
+      20px,
+      2.5vw,
+      36px
+    );
+}
+
+
+.landing-nav a {
+  color: #171717;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  transition:
+    opacity
+      180ms ease;
+}
+
+
+.landing-nav a:hover {
+  opacity: 0.45;
+}
+
+
+/*
+=====================================
+MAIN ARTWORK CANVAS
+=====================================
+
+DO NOT CHANGE.
+
+Same exact size from the
+previous version.
+*/
+
+.landing-frame {
+  position: relative;
+
+  width: 100%;
+
+  height:
+    calc(
+      100svh -
+      137px
+    );
+
+  min-height: 0;
+
+  flex:
+    0 0 auto;
+
+  margin: 0;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  border:
+    1px solid
+    #171717;
+
+  background: #ffffff;
+
+  --creation-paper: #ffffff;
+  --creation-ink: #171717;
+
+  color:
+    var(
+      --creation-ink
+    );
+
+  transition:
+    background-color
+      350ms ease,
+    color
+      350ms ease;
+}
+
+
+/*
+=====================================
+CANVAS DARK MODE
+=====================================
+*/
+
+.landing-frame--dark {
+  --creation-paper: #111111;
+  --creation-ink: #ffffff;
+
+  background: #111111;
+
+  color: #ffffff;
+
+  border-color: #171717;
+}
+
+
+/*
+=====================================
+FALLING STARS
+=====================================
+*/
+
+.floating-background--contained {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  pointer-events: none;
+}
+
+
+/*
+=====================================
+ASCII LANDSCAPE
+=====================================
+*/
+
+.landing-ascii {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  width: 100%;
+
+  height: 100%;
+
+  display: block;
+}
+
+
+/*
+=====================================
+LOCATION LABEL
+=====================================
+*/
+
+.landing-scene-label {
+  position: absolute;
+
+  top: 18px;
+
+  left: 18px;
+
+  z-index: 4;
+
+  color:
+    var(
+      --creation-ink
+    );
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  pointer-events: none;
+
+  transition:
+    color
+      350ms ease;
+}
+
+
+/*
+=====================================
+THEME / OPACITY TOOLS
+=====================================
+*/
+
+.landing-tools {
+  z-index: 5;
+}
+
+
+.landing-tools button {
+  color:
+    var(
+      --creation-ink
+    );
+
+  background:
+    var(
+      --creation-paper
+    );
+
+  border-color:
+    var(
+      --creation-ink
+    );
+}
+
+
+.landing-tools input {
+  accent-color:
+    var(
+      --creation-ink
+    );
+}
+
+
+/*
+=====================================
+VICTOR COPY
+=====================================
+*/
+
+.landing-copy {
+  position: absolute;
+
+  z-index: 3;
+
+  left:
+    clamp(
+      22px,
+      3.5vw,
+      58px
+    );
+
+  bottom:
+    clamp(
+      24px,
+      3.2vh,
+      42px
+    );
+
+  width:
+    min(
+      590px,
+      70%
+    );
+
+  color:
+    var(
+      --creation-ink
+    );
+
+  pointer-events: none;
+
+  transition:
+    color
+      350ms ease;
+}
+
+
+.landing-copy h1 {
+  margin:
+    0
+    0
+    12px;
+
+  font-size:
+    clamp(
+      74px,
+      8.2vw,
+      138px
+    );
+
+  font-weight: 400;
+
+  line-height: 0.84;
+
+  letter-spacing: -0.072em;
+}
+
+
+.landing-roles {
+  margin:
+    0
+    0
+    10px;
+
+  font-size:
+    clamp(
+      17px,
+      1.7vw,
+      23px
+    );
+
+  line-height: 1.25;
+
+  letter-spacing: -0.025em;
+}
+
+
+.landing-description {
+  margin: 0;
+
+  max-width: 560px;
+
+  color: inherit;
+
+  font-size:
+    clamp(
+      12px,
+      1.05vw,
+      15px
+    );
+
+  line-height: 1.48;
+}
+
+
+/*
+=====================================
+NEXT LANDSCAPE BUTTON
+=====================================
+*/
+
+.landing-next {
+  position: absolute;
+
+  right: 22px;
+
+  bottom: 20px;
+
+  z-index: 6;
+
+  width: 42px;
+
+  height: 42px;
+
+  padding: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border:
+    1px solid
+    var(
+      --creation-ink
+    );
+
+  border-radius: 50%;
+
+  background:
+    var(
+      --creation-paper
+    );
+
+  color:
+    var(
+      --creation-ink
+    );
+
+  font-size: 21px;
+
+  line-height: 1;
+
+  transition:
+    transform
+      180ms ease,
+    background-color
+      180ms ease,
+    color
+      180ms ease;
+}
+
+
+.landing-next:hover {
+  transform:
+    translateX(
+      4px
+    );
+
+  background:
+    var(
+      --creation-ink
+    );
+
+  color:
+    var(
+      --creation-paper
+    );
+}
+
+
+/*
+=====================================
+ENTER SITE
+
+NOW INSIDE THE CANVAS.
+=====================================
+*/
+
+.landing-enter-site--canvas {
+  position: absolute;
+
+  z-index: 7;
+
+  left: 50%;
+
+  bottom: 18px;
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+/*
+=====================================
+ENTER SITE BUTTON
+=====================================
+*/
+
+.landing-enter-site {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 132px;
+
+  margin: 0;
+
+  padding:
+    11px
+    20px;
+
+  border:
+    1px solid
+    #171717;
+
+  background: #171717;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.11em;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  transition:
+    transform
+      180ms ease,
+    background-color
+      180ms ease,
+    color
+      180ms ease;
+}
+
+
+.landing-enter-site::after {
+  content: "↓";
+
+  margin-left: 10px;
+
+  font-size: 12px;
+
+  line-height: 1;
+
+  transition:
+    transform
+      180ms ease;
+}
+
+
+.landing-enter-site--canvas:hover {
+  transform:
+    translate(
+      -50%,
+      -2px
+    );
+
+  background: #ffffff;
+
+  color: #171717;
+}
+
+
+.landing-enter-site:hover::after {
+  transform:
+    translateY(
+      3px
+    );
+}
+
+
+/*
+When the canvas is dark,
+keep the black button but
+give it a white border so
+it remains clearly visible.
+*/
+
+.landing-frame--dark
+.landing-enter-site--canvas {
+  background: #000000;
+
+  color: #ffffff;
+
+  border-color: #ffffff;
+}
+
+
+.landing-frame--dark
+.landing-enter-site--canvas:hover {
+  background: #ffffff;
+
+  color: #111111;
+}
+
+
+/*
+=====================================
+INVISIBLE SPACER
+
+The old button used to occupy
+54px underneath the canvas.
+
+We leave that exact space here
+so NOTHING on the page changes
+size or position.
+=====================================
+*/
+
+.landing-enter-spacer {
+  width: 100%;
+
+  height: 54px;
+
+  min-height: 54px;
+
+  flex:
+    0 0
+    54px;
+
+  margin: 0;
+
+  padding: 0;
+
+  background: #ffffff;
+
+  pointer-events: none;
+}
+
+
+/*
+=====================================
+MOBILE
+=====================================
+*/
+
+@media (
+  max-width: 700px
+) {
+
+  .landing-hero {
+    height: 100svh;
+
+    padding:
+      17px
+      16px
+      0;
+  }
+
+
+  .landing-topbar {
+    height: 34px;
+
+    min-height: 34px;
+
+    margin:
+      0
+      0
+      17px;
+
+    padding: 0;
+  }
+
+
+  .landing-mark {
+    width: 34px;
+
+    height: 34px;
+
+    flex-basis: 34px;
+
+    font-size: 15px;
+  }
+
+
+  .landing-nav {
+    gap: 16px;
+  }
+
+
+  .landing-nav a {
+    font-size: 10px;
+  }
+
+
+  /*
+  KEEP SAME MOBILE CANVAS SIZE.
+  */
+
+  .landing-frame {
+    height:
+      calc(
+        100svh -
+        113px
+      );
+
+    min-height: 0;
+  }
+
+
+  .landing-scene-label {
+    top: 15px;
+
+    left: 14px;
+
+    max-width: 60%;
+
+    font-size: 9px;
+  }
+
+
+  .landing-copy {
+    left: 17px;
+
+    bottom: 24px;
+
+    width:
+      calc(
+        100% -
+        68px
+      );
+  }
+
+
+  .landing-copy h1 {
+    font-size:
+      clamp(
+        58px,
+        17vw,
+        86px
+      );
+  }
+
+
+  .landing-roles {
+    font-size: 16px;
+  }
+
+
+  .landing-description {
+    max-width: 330px;
+
+    font-size: 12px;
+  }
+
+
+  .landing-next {
+    right: 15px;
+
+    bottom: 15px;
+
+    width: 38px;
+
+    height: 38px;
+  }
+
+
+  .landing-enter-site--canvas {
+    bottom: 14px;
+  }
+
+
+  .landing-enter-site {
+    min-width: 118px;
+
+    padding:
+      9px
+      15px;
+
+    font-size: 9px;
+  }
+
+
+  /*
+  Preserve the exact space that
+  the old mobile CTA occupied.
+  */
+
+  .landing-enter-spacer {
+    height: 45px;
+
+    min-height: 45px;
+
+    flex-basis: 45px;
+  }
+}
+
+
+/*
+=====================================
+REDUCED MOTION
+=====================================
+*/
+
+@media (
+  prefers-reduced-motion:
+    reduce
+) {
+
+  .landing-mark,
+  .landing-next,
+  .landing-enter-site,
+  .landing-enter-site::after {
+    transition: none;
+  }
+}
