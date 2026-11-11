@@ -144,6 +144,29 @@ function LandingAsciiCanvas({
 
     let ready = false;
     let visible = true;
+    let disposed = false;
+    let textRegions = [];
+
+    function updateTextClearance() {
+      const bounds = canvas.getBoundingClientRect();
+      const copy = canvas.parentElement?.querySelector(".landing-copy");
+      const regions = [];
+      copy?.querySelectorAll(".landing-roles, .landing-description").forEach(element => {
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        // Follow each wrapped line, rather than clearing a paragraph-sized box.
+        for (const rect of range.getClientRects()) {
+          if (!rect.width || !rect.height) continue;
+          regions.push({
+            left: rect.left - bounds.left - 2,
+            right: rect.right - bounds.left + 2,
+            top: rect.top - bounds.top - 2,
+            bottom: rect.bottom - bounds.top + 2,
+          });
+        }
+      });
+      textRegions = regions;
+    }
 
     function syncAnimation() {
       cancelAnimationFrame(frame);
@@ -476,6 +499,7 @@ function LandingAsciiCanvas({
 
 
       particles.sort((a, b) => a.darkness - b.darkness);
+      updateTextClearance();
       draw(0, 1);
     }
 
@@ -521,6 +545,10 @@ function LandingAsciiCanvas({
           previousLevel = level;
         }
         context.fillText(particle.character, particle.x, particle.y);
+      }
+      // Erase only the background directly behind each text line.
+      for (const rect of textRegions) {
+        context.clearRect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
       }
     }
 
@@ -635,6 +663,18 @@ function LandingAsciiCanvas({
     observer.observe(
       canvas
     );
+    const copyObserver = new ResizeObserver(() => {
+      if (!ready) return;
+      updateTextClearance();
+      redraw();
+    });
+    const copy = canvas.parentElement?.querySelector(".landing-copy");
+    if (copy) copyObserver.observe(copy);
+    document.fonts.ready.then(() => {
+      if (disposed || !ready) return;
+      updateTextClearance();
+      redraw();
+    });
     const stopWatchingVisibility = observeAnimationVisibility(canvas, active => {
       visible = active;
       syncAnimation();
@@ -660,11 +700,13 @@ function LandingAsciiCanvas({
 
 
     return () => {
+      disposed = true;
       image.onload =
         null;
 
 
       observer.disconnect();
+      copyObserver.disconnect();
       stopWatchingVisibility();
 
 

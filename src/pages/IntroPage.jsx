@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { SITE } from "../content/siteContent";
 import TypedTagline from "../components/TypedTagline";
 import CompactNavigation from "../components/CompactNavigation";
@@ -20,6 +20,7 @@ const PAINTINGS = [
 
 export default function IntroPage({ leaving = false, onEnter }) {
   const [paintingIndex, setPaintingIndex] = useState(0);
+  const signatureFilterId = useId();
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -66,6 +67,14 @@ export default function IntroPage({ leaving = false, onEnter }) {
               ))}
               </span>
               <span className="intro-artwork-frame" style={{ borderImageSource: `url("${PAINTING_FRAME}")` }} aria-hidden="true" />
+              <svg className="intro-artwork-signature" viewBox="0 0 1588 1032" aria-hidden="true" focusable="false">
+                <defs>
+                  <filter id={signatureFilterId} colorInterpolationFilters="sRGB">
+                    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -0.2126 -0.7152 -0.0722 0 1" />
+                  </filter>
+                </defs>
+                <image href="/intro/victor-mark.png" width="1588" height="1032" filter={`url(#${signatureFilterId})`} />
+              </svg>
             </span>
           </button>
           <div className="intro-artwork-controls" role="group" aria-label="Painting navigation">
