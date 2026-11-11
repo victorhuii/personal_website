@@ -1,0 +1,18 @@
+.top-links--sliding { position: relative; isolation: isolate; }
+.top-links--sliding > a { position: relative; z-index: 1; }
+.navigation-sliding-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border: 1px solid var(--brown-100);
+  border-radius: 999px;
+  corner-shape: round;
+  background: var(--brown-50);
+  box-shadow: var(--shadow-default);
+  pointer-events: none;
+  opacity: 0;
+}
+.top-links--sliding[data-pill-ready] > .navigation-sliding-pill { opacity: 1; }
+.top-links--sliding[data-pill-ready] > a.active { background: transparent; box-shadow: none; }

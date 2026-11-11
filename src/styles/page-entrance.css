@@ -8,8 +8,8 @@
  */
 
 :root {
-  --entrance-duration: 300ms;
-  --entrance-easing: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --entrance-duration: var(--motion-enter);
+  --entrance-easing: var(--motion-out);
 }
 
 @keyframes pageEntranceDown {
@@ -44,30 +44,32 @@
   .landing-nav > *,
   .site-heading .identity-mark,
   .site-heading .identity-copy > *,
+  .site-heading .header-origin,
   .site-heading .top-links > * {
     animation: pageEntranceDown var(--entrance-duration) var(--entrance-easing) 100ms backwards;
   }
 
   /* Landing page: keep the existing canvas, controls, and ENTER SITE together. */
-  .landing-nav > :nth-child(1) { animation-delay: 200ms; }
-  .landing-nav > :nth-child(2) { animation-delay: 300ms; }
-  .landing-nav > :nth-child(3) { animation-delay: 400ms; }
-  .landing-nav > :nth-child(4) { animation-delay: 500ms; }
+  .landing-nav > :nth-child(1) { animation-delay: 100ms; }
+  .landing-nav > :nth-child(2) { animation-delay: 130ms; }
+  .landing-nav > :nth-child(3) { animation-delay: 160ms; }
+  .landing-nav > :nth-child(4) { animation-delay: 190ms; }
 
   .landing-frame {
-    animation: pageEntranceUp var(--entrance-duration) var(--entrance-easing) 1100ms backwards;
+    animation: pageEntranceUp var(--entrance-duration) var(--entrance-easing) 220ms backwards;
   }
 
-  /* About header: mark → name → tagline → navigation, in 100ms steps. */
-  .site-heading .identity-copy > h1 { animation-delay: 200ms; }
-  .site-heading .identity-copy > p { animation-delay: 300ms; }
-  .site-heading .top-links > :nth-child(1) { animation-delay: 400ms; }
-  .site-heading .top-links > :nth-child(2) { animation-delay: 500ms; }
-  .site-heading .top-links > :nth-child(3) { animation-delay: 600ms; }
-  .site-heading .top-links > :nth-child(4) { animation-delay: 700ms; }
+  /* Mark → name → tagline → navigation, in 30ms steps. */
+  .site-heading .identity-copy > h1 { animation-delay: 130ms; }
+  .site-heading .identity-copy > p { animation-delay: 160ms; }
+  .site-heading .header-origin { animation-delay: 190ms; }
+  .site-heading .top-links > :nth-child(1) { animation-delay: 190ms; }
+  .site-heading .top-links > :nth-child(2) { animation-delay: 220ms; }
+  .site-heading .top-links > :nth-child(3) { animation-delay: 250ms; }
+  .site-heading .top-links > :nth-child(4) { animation-delay: 280ms; }
 
   .site-main {
-    animation: pageEntranceGate 1ms step-end 1000ms backwards;
+    animation: pageEntranceGate 1ms step-end 100ms backwards;
   }
 
   .site-main .side-nav,
@@ -77,19 +79,19 @@
   .site-main .about-copy > .about-meta,
   .site-main .about-copy > p,
   .site-main .content-layout > .container > section:not(.about-section) {
-    animation: pageEntranceUp var(--entrance-duration) var(--entrance-easing) 1100ms backwards;
+    animation: pageEntranceUp var(--entrance-duration) var(--entrance-easing) 220ms backwards;
   }
 
-  .site-main .about-photo { animation-delay: 1200ms; }
-  .site-main .about-copy > .about-meta { animation-delay: 1200ms; }
-  .site-main .about-copy > p { animation-delay: 1300ms; }
-  .site-main .about-copy > p + p { animation-delay: 1400ms; }
-  .site-main .about-copy > p + p + p { animation-delay: 1500ms; }
-  .site-main .about-copy > p + p + p + p { animation-delay: 1600ms; }
-  .site-main .content-layout > .container > section:not(.about-section) { animation-delay: 1600ms; }
+  .site-main .about-photo { animation-delay: 250ms; }
+  .site-main .about-copy > .about-meta { animation-delay: 250ms; }
+  .site-main .about-copy > p { animation-delay: 280ms; }
+  .site-main .about-copy > p + p { animation-delay: 310ms; }
+  .site-main .about-copy > p + p + p { animation-delay: 340ms; }
+  .site-main .about-copy > p + p + p + p { animation-delay: 370ms; }
+  .site-main .content-layout > .container > section:not(.about-section) { animation-delay: 370ms; }
 
   .page > .footer {
-    animation: pageEntranceFade var(--entrance-duration) var(--entrance-easing) 1800ms backwards;
+    animation: pageEntranceFade var(--entrance-duration) var(--entrance-easing) 400ms backwards;
   }
 }
 

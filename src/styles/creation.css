@@ -36,12 +36,10 @@
     background-color 0.35s ease,
     color 0.35s ease;
 
-  cursor: none;
 }
 
 .creation-page * {
   box-sizing: border-box;
-  cursor: none !important;
 }
 
 .creation-page--dark {
@@ -105,89 +103,6 @@ visible through the dark page.
   background:
     #171717;
 }
-
-/*
-=====================================
-GOOGLY CURSOR
-=====================================
-*/
-
-.creation-googly-cursor {
-  position: fixed;
-
-  top: 0;
-  left: 0;
-
-  width: 34px !important;
-  height: 34px !important;
-
-  min-width: 34px !important;
-  min-height: 34px !important;
-
-  max-width: 34px !important;
-  max-height: 34px !important;
-
-  display: block;
-
-  overflow: visible;
-
-  pointer-events: none;
-
-  z-index: 999999;
-
-  opacity: 0;
-
-  transform:
-    translate3d(
-      -100px,
-      -100px,
-      0
-    );
-
-  transition:
-    opacity 0.12s ease;
-
-  will-change:
-    transform;
-}
-
-.creation-googly-cursor-ring {
-  fill:
-    rgba(
-      247,
-      247,
-      245,
-      0.72
-    );
-
-  stroke:
-    var(--creation-ink);
-
-  stroke-width: 0.9;
-}
-
-.creation-page--dark
-.creation-googly-cursor-ring {
-  fill:
-    rgba(
-      23,
-      23,
-      23,
-      0.72
-    );
-}
-
-.creation-googly-cursor-dot {
-  fill:
-    var(--creation-ink);
-
-  will-change:
-    transform;
-
-  transform-origin:
-    17px 17px;
-}
-
 
 /*
 =====================================
@@ -1110,10 +1025,6 @@ TOUCH
       auto !important;
   }
 
-  .creation-googly-cursor {
-    display:
-      none;
-  }
 }
 
 

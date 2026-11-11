@@ -1,0 +1,9 @@
+.shelf-collection-label { margin: 0; cursor: default; }
+.shelf-collection[data-kind="music"] .shelf-cover,
+.shelf-collection[data-kind="movies"] .shelf-cover { border-radius: 3px; }
+.shelf-collection[data-kind="restaurants"] .shelf-cover { border-radius: 3px; background: #f2ece5; }
+.shelf-cover img.shelf-cover-contained { object-fit: contain; padding: 12px; box-sizing: border-box; }
+.shelf-caption-detail { display: block; margin-top: 3px; color: var(--zinc-400); font-size: 12px; }
+.shelf-cover-link { display: block; }
+.shelf-cover-link:focus-visible { outline: 2px solid var(--brown-500); outline-offset: 4px; }
+.shelf-empty { grid-column: 1 / -1; margin: 0; color: var(--zinc-400); font-size: 14px; }

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import observeAnimationVisibility from "../utils/observeAnimationVisibility";
 
 function seededRandom(seed = 2026) {
   let value = seed >>> 0;
@@ -168,20 +169,21 @@ export default function FloatingBackground({
           ? canvas.parentElement?.getBoundingClientRect()
           : null;
 
-      width =
+      const nextWidth =
         contained
           ? bounds?.width || 1
           : window.innerWidth;
 
-      height =
+      const nextHeight =
         contained
           ? bounds?.height || 1
           : window.innerHeight;
 
-      const dpr = Math.min(
-        window.devicePixelRatio || 1,
-        1.25
-      );
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+      if (width === nextWidth && height === nextHeight && canvas.width === Math.round(nextWidth * dpr) && canvas.height === Math.round(nextHeight * dpr)) return;
+      width = nextWidth;
+      height = nextHeight;
+
 
       canvas.width =
         Math.round(
@@ -219,259 +221,49 @@ export default function FloatingBackground({
         : "100,100,100";
     }
 
-    function getAlpha(star) {
-      /*
-      NIGHT MODE:
-      stars are completely opaque white.
-      */
-
-      return darkRef.current
-        ? 1
-        : star.opacity;
-    }
-
-    function drawSparkle(star) {
-      const s = star.size;
-
-      ctx.save();
-
-      ctx.translate(
-        star.x,
-        star.y
-      );
-
-      ctx.rotate(
-        star.rotation
-      );
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        0,
-        -s * 1.6
-      );
-
-      ctx.lineTo(
-        s * 0.26,
-        -s * 0.24
-      );
-
-      ctx.lineTo(
-        s * 1.25,
-        0
-      );
-
-      ctx.lineTo(
-        s * 0.26,
-        s * 0.24
-      );
-
-      ctx.lineTo(
-        0,
-        s * 1.6
-      );
-
-      ctx.lineTo(
-        -s * 0.26,
-        s * 0.24
-      );
-
-      ctx.lineTo(
-        -s * 1.25,
-        0
-      );
-
-      ctx.lineTo(
-        -s * 0.26,
-        -s * 0.24
-      );
-
-      ctx.closePath();
-
-      ctx.fillStyle =
-        `rgba(
-          ${getRGB()},
-          ${getAlpha(star)}
-        )`;
-
-      ctx.fill();
-
-      ctx.restore();
-    }
-
-    function drawCross(star) {
-      const s = star.size;
-
-      ctx.save();
-
-      ctx.translate(
-        star.x,
-        star.y
-      );
-
-      ctx.rotate(
-        star.rotation
-      );
-
-      ctx.strokeStyle =
-        `rgba(
-          ${getRGB()},
-          ${getAlpha(star)}
-        )`;
-
-      ctx.lineWidth =
-        Math.max(
-          0.6,
-          s * 0.22
-        );
-
-      ctx.lineCap =
-        "round";
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        0,
-        -s
-      );
-
-      ctx.lineTo(
-        0,
-        s
-      );
-
-      ctx.moveTo(
-        -s,
-        0
-      );
-
-      ctx.lineTo(
-        s,
-        0
-      );
-
-      ctx.stroke();
-
-      ctx.restore();
-    }
-
-    function drawFivePoint(star) {
-      const outer =
-        star.size;
-
-      const inner =
-        outer * 0.42;
-
-      ctx.save();
-
-      ctx.translate(
-        star.x,
-        star.y
-      );
-
-      ctx.rotate(
-        star.rotation -
-          Math.PI / 2
-      );
-
-      ctx.beginPath();
-
-      for (
-        let i = 0;
-        i < 10;
-        i++
-      ) {
-        const radius =
-          i % 2 === 0
-            ? outer
-            : inner;
-
-        const angle =
-          (Math.PI / 5) *
-          i;
-
-        const x =
-          Math.cos(angle) *
-          radius;
-
-        const y =
-          Math.sin(angle) *
-          radius;
-
-        if (i === 0) {
-          ctx.moveTo(
-            x,
-            y
-          );
+    function drawShape(star) {
+      if (!star.path) {
+        const path = new Path2D();
+        const s = star.size;
+        if (star.type === "sparkle") {
+          path.moveTo(0, -s * 1.6);
+          for (const [x, y] of [[.26, -.24], [1.25, 0], [.26, .24], [0, 1.6], [-.26, .24], [-1.25, 0], [-.26, -.24]]) path.lineTo(x * s, y * s);
+          path.closePath();
+        } else if (star.type === "cross") {
+          path.moveTo(0, -s); path.lineTo(0, s);
+          path.moveTo(-s, 0); path.lineTo(s, 0);
+        } else if (star.type === "fivePoint") {
+          for (let i = 0; i < 10; i++) {
+            const radius = i % 2 === 0 ? s : s * .42;
+            const angle = Math.PI / 5 * i;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            if (i === 0) path.moveTo(x, y);
+            else path.lineTo(x, y);
+          }
+          path.closePath();
         } else {
-          ctx.lineTo(
-            x,
-            y
-          );
+          const size = s * .75;
+          path.moveTo(0, -size); path.lineTo(size * .55, 0);
+          path.lineTo(0, size); path.lineTo(-size * .55, 0);
+          path.closePath();
         }
+        star.path = path;
+        star.lightInk = `rgba(100,100,100,${star.opacity})`;
       }
-
-      ctx.closePath();
-
-      ctx.fillStyle =
-        `rgba(
-          ${getRGB()},
-          ${getAlpha(star)}
-        )`;
-
-      ctx.fill();
-
-      ctx.restore();
-    }
-
-    function drawDiamond(star) {
-      const s =
-        star.size *
-        0.75;
-
       ctx.save();
-
-      ctx.translate(
-        star.x,
-        star.y
-      );
-
-      ctx.rotate(
-        star.rotation
-      );
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        0,
-        -s
-      );
-
-      ctx.lineTo(
-        s * 0.55,
-        0
-      );
-
-      ctx.lineTo(
-        0,
-        s
-      );
-
-      ctx.lineTo(
-        -s * 0.55,
-        0
-      );
-
-      ctx.closePath();
-
-      ctx.fillStyle =
-        `rgba(
-          ${getRGB()},
-          ${getAlpha(star)}
-        )`;
-
-      ctx.fill();
-
+      ctx.translate(star.x, star.y);
+      ctx.rotate(star.rotation - (star.type === "fivePoint" ? Math.PI / 2 : 0));
+      const ink = darkRef.current ? "#fff" : star.lightInk;
+      if (star.type === "cross") {
+        ctx.strokeStyle = ink;
+        ctx.lineWidth = Math.max(.6, star.size * .22);
+        ctx.lineCap = "round";
+        ctx.stroke(star.path);
+      } else {
+        ctx.fillStyle = ink;
+        ctx.fill(star.path);
+      }
       ctx.restore();
     }
 
@@ -612,33 +404,7 @@ export default function FloatingBackground({
       ) {
         drawTrail(star);
 
-        if (
-          star.type ===
-          "sparkle"
-        ) {
-          drawSparkle(star);
-        }
-
-        if (
-          star.type ===
-          "cross"
-        ) {
-          drawCross(star);
-        }
-
-        if (
-          star.type ===
-          "fivePoint"
-        ) {
-          drawFivePoint(star);
-        }
-
-        if (
-          star.type ===
-          "diamond"
-        ) {
-          drawDiamond(star);
-        }
+        drawShape(star);
       }
     }
 
@@ -697,14 +463,15 @@ export default function FloatingBackground({
       redraw
     );
 
-    if (!reducedMotion) {
-      frame =
-        requestAnimationFrame(
-          animate
-        );
-    }
+    const stopWatchingVisibility = observeAnimationVisibility(canvas, visible => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      previousTime = 0;
+      if (visible && !reducedMotion) frame = requestAnimationFrame(animate);
+    });
 
     return () => {
+      stopWatchingVisibility();
       cancelAnimationFrame(
         frame
       );

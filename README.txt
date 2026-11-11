@@ -32,24 +32,24 @@ Component map:
   src/hooks/useActiveSection.js  Left navigation scroll tracking
   src/hooks/useIntroScroll.js    One-second scroll from the intro into About
   src/styles/motion.css        Motion timings and effects; imported by App.jsx
-  src/pages/IntroPage.jsx      Separate landing screen, opened at the root URL
+  src/pages/LandingPage.jsx    Main intro: Golden Gate and Moonlit Lake scenes
+  src/pages/IntroPage.jsx      Portfolio collage at #/portfolio
   src/styles/intro.css         Intro layout, logo reveal, and preview animations
-  src/pages/CreationPage.jsx   Separate interactive character drawing experiment
   src/styles/creation.css      Experiment layout and theme styles
   src/pages/RipplePage.jsx     Second creation page: text, controls, shape timer
   src/components/ParticleScene.jsx  Canvas lifecycle and pointer events
   src/lib/particleField.js     Generated shapes, springs, glow, and floor ripples
   src/styles/ripple.css        Blue particle page layout and responsive styles
   public/intro/               Victor logo, paintings, cutouts, and studio photos
-  public/creation/            Original hand artwork sampled into characters
+  public/creation/            Landscape silhouettes sampled into characters
 
 The intro collage automatically uses the first four entries in PROJECTS.
 The Victor logo at the top left of the main site links back to #/intro.
 The intro's Enter the site button scrolls down into About and then changes the
 URL to #/about. Visitors using reduced motion go directly to About.
-The intro also links to the optional #/creation experiment. Its hand artwork
-is converted into characters in a canvas; the cursor pushes them away and a
-spring returns them to the hand shape. The right slider changes ink intensity.
+The unused standalone Creation, Golden Gate, Moon Tree, Moon Gate, and Shanshui
+pages have been moved to macOS Trash. The Golden Gate and Moonlit Lake scenes
+still render directly inside LandingPage.jsx; their image assets are retained.
 The Particle study link opens #/creation-2. This separate experiment has blue
 sphere, tree, and cube forms, cursor repulsion, spring return, reflected points,
 and an outward-rippling floor. Click the scene to add a ripple. Shape buttons

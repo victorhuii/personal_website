@@ -1,10 +1,11 @@
-import { useState } from "react";
+import "../styles/shelf-dropdown.css";
 
 function ShelfCover({ item, kind }) {
   return (
-    <div className={`shelf-cover ${kind === "music" ? "square" : ""}`}
-      style={{ "--cover-a": item.colors[0], "--cover-b": item.colors[1] }}>
-      {item.image ? <img src={item.image} alt={`${item.title} cover`} loading="lazy" /> :
+    <div className={`shelf-cover ${kind === "music" || kind === "restaurants" ? "square" : ""}`}
+      style={{ "--cover-a": item.colors?.[0] ?? "#e4e4e7", "--cover-b": item.colors?.[1] ?? "#71717a" }}>
+      {item.image ? <img src={item.image} alt={item.imageAlt ?? `${item.title} cover`} loading="lazy"
+        className={item.imageFit === "contain" ? "shelf-cover-contained" : undefined} /> :
         <div className="shelf-cover-placeholder" aria-label={`${item.title} cover placeholder`}>
           <span className="cover-symbol">✳</span>
           <strong>{item.title}</strong>
@@ -15,31 +16,28 @@ function ShelfCover({ item, kind }) {
 }
 
 export default function ShelfCollection({ collection }) {
-  const [year, setYear] = useState("All");
-  const visibleItems = collection.items.filter(item => year === "All" || item.year === year);
-
   return (
-    <div className="shelf-collection" id={`shelf-${collection.id}`}>
-      <div className="shelf-collection-top">
-        <div className="shelf-filters" aria-label={`${collection.label} year filter`}>
-          <button type="button" className={`shelf-kind ${year === "All" ? "selected" : ""}`}
-            onClick={() => setYear("All")} aria-pressed={year === "All"}>
-            ★ {collection.label} <span>{collection.items.length}</span>
-          </button>
-          {collection.years.map(value => <button type="button" key={value}
-            className={`shelf-year ${year === value ? "selected" : ""}`}
-            onClick={() => setYear(value)} aria-pressed={year === value}>
-            {value} <span>{collection.items.filter(item => item.year === value).length}</span>
-          </button>)}
-        </div>
-        {collection.sourceUrl ? <a className="shelf-source" href={collection.sourceUrl} target="_blank" rel="noreferrer">{collection.sourceLabel} ↗</a>
-          : <span className="shelf-source">{collection.sourceLabel} ↗</span>}
+    <div className="shelf-collection" id={`shelf-${collection.id}`} data-kind={collection.id}>
+      <div className="shelf-collection-top" data-cursor-reveal="text">
+        <h3 className="shelf-kind selected shelf-collection-label">
+          ★ {collection.label} <span>{collection.items.length}</span>
+        </h3>
+        {collection.sourceLabel && (collection.sourceUrl ?
+          <a className="shelf-source" href={collection.sourceUrl} target="_blank" rel="noopener noreferrer">{collection.sourceLabel} ↗</a> :
+          <span className="shelf-source">{collection.sourceLabel}</span>)}
       </div>
-      <div className="shelf-gallery" key={year}>
-        {visibleItems.map((item, index) => (
-          <figure className="shelf-entry" key={item.title} style={{ animationDelay: `${index * 0.06}s` }}>
-            <ShelfCover item={item} kind={collection.id} />
-            <figcaption className="shelf-caption">{item.favorite && "Favorite: "}{item.title} — {item.creator}</figcaption>
+      <div className="shelf-gallery">
+        {collection.items.length === 0 && <p data-cursor-reveal="text" className="shelf-empty">{collection.emptyMessage ?? "Coming soon."}</p>}
+        {collection.items.map((item, index) => (
+          <figure data-cursor-reveal="image" className="shelf-entry" key={item.title} style={{ animationDelay: `${index * 30}ms` }}>
+            {item.url ? <a className="shelf-cover-link" href={item.url} target="_blank" rel="noopener noreferrer"
+              aria-label={`View ${item.title}${collection.sourceLabel ? ` on ${collection.sourceLabel}` : ""} (opens in a new tab)`}>
+              <ShelfCover item={item} kind={collection.id} />
+            </a> : <ShelfCover item={item} kind={collection.id} />}
+            <figcaption className="shelf-caption">
+              {item.title}
+              {item.subtitle && <span className="shelf-caption-detail">{item.subtitle}</span>}
+            </figcaption>
           </figure>
         ))}
       </div>

@@ -1,0 +1,16 @@
+/* Colored cursors draw each block before releasing its photograph or text. */
+.portfolio-agents { position: fixed; inset: 0; z-index: 70; overflow: hidden; pointer-events: none; }
+.portfolio-agent { color: var(--agent-color); }
+.portfolio-agent-frame { position: absolute; top: 0; left: 0; width: 0; height: 0; outline: 1px solid currentColor; background: var(--agent-tint); opacity: 0; }
+.portfolio-agent-cursor { position: absolute; top: 0; left: 0; width: 18px; height: 21px; opacity: 0; will-change: transform; }
+.portfolio-agent-cursor svg { display: block; width: 18px; height: 21px; filter: drop-shadow(0 1px 1px #30271e44); }
+.portfolio-agent-press { position: absolute; top: -5.5px; left: -4.75px; width: 14px; height: 14px; border: 1px solid currentColor; border-radius: 50%; corner-shape: round; opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  :is(.portfolio-page, .about-cursor-page, [data-cursor-root]) [data-cursor-reveal]:not([data-cursor-revealed="true"]) { opacity: 0; visibility: hidden; }
+  .site-heading[data-cursor-root] .header-origin,
+  .site-heading[data-cursor-root] .top-links > * { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-agents { display: none; }
+}

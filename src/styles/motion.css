@@ -2,9 +2,14 @@
 :root {
   --motion-150: 150ms;
   --motion-200: 200ms;
-  --motion-300: 300ms;
-  --motion-500: 500ms;
+  --motion-300: 240ms;
+  --motion-500: 240ms;
+  --motion-enter: 220ms;
+  --motion-exit: 176ms; /* Exits are 20% shorter than entrances. */
+  --motion-move: 240ms;
+  --motion-stagger: 30ms;
   --motion-out: cubic-bezier(.2, .8, .2, 1);
+  --motion-in-out: cubic-bezier(.4, 0, .2, 1);
 }
 
 /* Scroll reveal and project cards start when they enter the viewport. */
@@ -16,7 +21,7 @@
 .scroll-reveal.in .project-pill { animation: fadeSlideUp var(--motion-300) var(--motion-out) .12s both; }
 
 /* Filtered covers remount on year changes, so this animation plays each time. */
-.shelf-entry { animation: shelfItemFadeUp 400ms var(--motion-out) both; }
+.shelf-entry { animation: shelfItemFadeUp var(--motion-enter) var(--motion-out) both; }
 .shelf-cover { transition: transform var(--motion-300) var(--motion-out), box-shadow var(--motion-300) var(--motion-out); }
 .shelf-kind, .shelf-year, .community-tab, .top-links a {
   transition: color var(--motion-200) ease-out, background-color var(--motion-200) ease-out, box-shadow var(--motion-200) ease-out;

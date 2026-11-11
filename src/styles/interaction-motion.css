@@ -1,0 +1,83 @@
+/* Shared interaction rules. Geometry, content, colors, and page layouts stay local. */
+.experience-detail, .work-dialog-scroll, .community-story, .portfolio-gallery-inner { position: relative; }
+.motion-snapshot { z-index: 2; }
+.motion-snapshot, .motion-snapshot * { animation: none !important; transition: none !important; }
+.community-archive[data-animating] #past-club-stories { overflow: clip; }
+#past-club-stories { transform-origin: top left; }
+.community-archive[data-closing] > summary svg { transform: rotate(0deg); }
+
+/* Reveal the selected color through a mask instead of blending the whole card. */
+.experience-tab { position: relative; isolation: isolate; }
+.experience-tab.is-selected { background: #fff; }
+.experience-tab::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--brown-50); clip-path: inset(0 100% 0 0); transition: clip-path var(--motion-exit) var(--motion-out); }
+.experience-tab.is-selected::before { clip-path: inset(0 0% 0 0); transition-duration: var(--motion-enter); }
+
+.motion-icon-stack { display: grid; place-items: center; }
+.motion-icon-stack > .motion-icon { grid-area: 1 / 1; opacity: 0; filter: blur(2px); transform: scale(.95); transition: opacity var(--motion-exit) var(--motion-out), filter var(--motion-exit) var(--motion-out), transform var(--motion-exit) var(--motion-out); }
+.motion-icon-stack > .motion-icon.is-active { opacity: 1; filter: blur(0); transform: scale(1); transition-duration: var(--motion-enter); }
+.landing-tools button:hover { transform: none; }
+
+/* The pointer owns the range position while held; only release is interpolated. */
+.creation-tools .motion-range {
+  appearance: none;
+  background: transparent;
+  transform: translateY(var(--range-pull, 0px));
+  transition: transform var(--motion-exit) var(--motion-out);
+}
+.motion-range::-webkit-slider-runnable-track { width: 4px; height: 100%; border-radius: 999px; background: linear-gradient(to top, var(--creation-ink) var(--range-fill), color-mix(in srgb, var(--creation-ink) 18%, var(--creation-paper)) var(--range-fill)); }
+.motion-range::-moz-range-track { width: 4px; height: 100%; border-radius: 999px; background: linear-gradient(to top, var(--creation-ink) var(--range-fill), color-mix(in srgb, var(--creation-ink) 18%, var(--creation-paper)) var(--range-fill)); }
+.motion-range::-webkit-slider-thumb { appearance: none; width: 11px; height: 11px; margin-left: -3.5px; border: 0; border-radius: 50%; background: var(--creation-ink); transform: scaleY(var(--range-stretch, 1)); transition: transform var(--motion-exit) var(--motion-out); }
+.motion-range::-moz-range-thumb { width: 11px; height: 11px; border: 0; border-radius: 50%; background: var(--creation-ink); transform: scaleY(var(--range-stretch, 1)); transition: transform var(--motion-exit) var(--motion-out); }
+.creation-tools .motion-range[data-held] { --range-stretch: 1.12; transition: none; }
+.motion-range[data-held]::-webkit-slider-thumb { transition: none; }
+.motion-range[data-held]::-moz-range-thumb { transition: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Individual scale composes with existing hover tilts and curved travel. */
+  :is(button, summary, .intro-enter, .landing-enter-site, .top-links a, .compact-nav a, .shelf-cover-link) { transition: scale 120ms var(--motion-out), transform var(--motion-move) var(--motion-in-out), opacity var(--motion-exit) var(--motion-out), background-color 180ms var(--motion-out), border-color 180ms var(--motion-out), box-shadow 180ms var(--motion-out), color 180ms var(--motion-out); }
+  :is(button, summary, .intro-enter, .landing-enter-site, .top-links a, .compact-nav a, .shelf-cover-link):active:not(:disabled):not([aria-disabled="true"]) { scale: .97; transition-duration: 0ms; }
+
+  .site-main .side-nav-subsections {
+    transform: translateY(-4px) scale(.95);
+    transition: grid-template-rows var(--motion-exit) var(--motion-out), opacity var(--motion-exit) var(--motion-out), transform var(--motion-exit) var(--motion-out), margin var(--motion-exit) var(--motion-out), visibility var(--motion-exit);
+  }
+  .site-main .side-nav-subsections.expanded { transform: none; transition-duration: var(--motion-enter); }
+  .site-main .side-nav-subsections.expanded .side-nav-sublink { animation: motionRowIn var(--motion-enter) var(--motion-out) calc(var(--row-index, 0) * var(--motion-stagger)) both; }
+  .community-archive > summary svg { transition: transform var(--motion-move) var(--motion-in-out); }
+
+  .experience-detail-content > .experience-detail-heading { animation: motionRowIn var(--motion-enter) var(--motion-out) both; }
+  .experience-detail-content > .experience-detail-summary { animation: motionRowIn var(--motion-enter) var(--motion-out) 30ms both; }
+  .experience-detail-content :is(.experience-detail-body, .experience-detail-skills, .experience-detail-achievements) h4 { animation: motionRowIn var(--motion-enter) var(--motion-out) 60ms both; }
+  .experience-detail .experience-bullet-list li { animation: motionRowIn var(--motion-enter) var(--motion-out) calc(90ms + var(--row-index, 0) * var(--motion-stagger)) both; }
+  .experience-detail .experience-detail-tools span { animation: motionRowIn var(--motion-enter) var(--motion-out) calc(120ms + var(--row-index, 0) * var(--motion-stagger)) both; }
+  .experience-detail .experience-achievement-list li { animation: motionRowIn var(--motion-enter) var(--motion-out) calc(150ms + var(--row-index, 0) * var(--motion-stagger)) both; }
+
+  .work-dialog[open], .work-dialog.is-closing { animation: none; }
+  .work-dialog { transition: width var(--motion-move) var(--motion-in-out), height var(--motion-move) var(--motion-in-out), max-height var(--motion-move) var(--motion-in-out), border-radius var(--motion-move) var(--motion-in-out); }
+  .work-dialog[open]::backdrop { animation: workBackdropIn var(--motion-enter) var(--motion-out) both; }
+  .work-dialog.is-closing::backdrop { animation: workBackdropOut var(--motion-exit) var(--motion-in-out) both; }
+  .work-dialog-body { animation: motionRowIn var(--motion-enter) var(--motion-out) both; }
+  .work-dialog-body > .work-project-title { animation: motionRowIn var(--motion-enter) var(--motion-out) 30ms both; }
+  .work-prose li { animation: motionRowIn var(--motion-enter) var(--motion-out) calc(90ms + var(--row-index, 0) * var(--motion-stagger)) both; }
+  .work-project-meta > div { animation: motionRowIn var(--motion-enter) var(--motion-out) both; }
+  .work-project-meta > div:nth-child(2) { animation-delay: 30ms; }
+  .work-project-meta > div:nth-child(3) { animation-delay: 60ms; }
+  .work-project-meta > div:nth-child(4) { animation-delay: 90ms; }
+  .work-card-description, .work-card-frame { transition: opacity var(--motion-enter) var(--motion-out), transform var(--motion-move) var(--motion-in-out); }
+  .portfolio-photo-caption { transition: opacity var(--motion-enter) var(--motion-out), transform var(--motion-enter) var(--motion-out); }
+  .intro-artwork-image { transition: opacity var(--motion-move) var(--motion-in-out); }
+  .intro-painting-showcase { animation-duration: var(--motion-move); animation-timing-function: var(--motion-out); }
+  .polaroid-content { transition: transform var(--motion-move) var(--motion-in-out); }
+}
+
+@keyframes motionRowIn {
+  from { opacity: 0; transform: translateY(5px); clip-path: inset(0 0 20% 0); }
+  to { opacity: 1; transform: translateY(0); clip-path: inset(0 0 0% 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience-tab::before { transition: none; }
+  .motion-icon-stack > .motion-icon { filter: none; transform: none; transition: none; }
+  .creation-tools .motion-range { transform: none; transition: none; --range-stretch: 1; }
+  .creation-tools .motion-range[data-held] { --range-stretch: 1; }
+}

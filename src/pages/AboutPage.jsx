@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Footer from "../components/Footer";
 import Sidebar, { MobileSectionNav } from "../components/Sidebar";
-import { ProjectModal } from "../components/Project";
 import {
-  AboutSection, ExperienceSection, ProjectsSection, CommunitiesSection,
+  AboutSection, ExperienceSection, CommunitiesSection,
   PhilosophySection, ShelfSection,
 } from "../components/Sections";
 import useActiveSection from "../hooks/useActiveSection";
+import useCursorReveals from "../hooks/useCursorReveals";
+import "../styles/about-cursor-reveals.css";
 
 export default function AboutPage() {
-  const { activeSection, activeShelf, setActiveSection, setActiveShelf } = useActiveSection();
-  const [openProject, setOpenProject] = useState(null);
+  const rootRef = useRef(null);
+  const [archiveOpen, setArchiveOpen] = useState(false);
+  useCursorReveals(rootRef, true, 100);
+  const { activeSection, activeShelf, activeCommunity, setActiveSection, setActiveShelf, setActiveCommunity } = useActiveSection();
 
   const navigateToSection = link => {
     setActiveSection(link);
@@ -21,23 +25,28 @@ export default function AboutPage() {
     setActiveShelf(id);
     document.getElementById(`shelf-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+  const navigateToCommunity = id => {
+    setActiveSection("Community");
+    setActiveCommunity(id);
+    document.getElementById(`community-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
-  return <>
+  return <div className="about-cursor-page" ref={rootRef} data-cursor-scope="about">
     <main className="gutter site-main" style={{ flex: 1 }}>
       <div className="content-layout">
-        <Sidebar activeSection={activeSection} activeShelf={activeShelf}
-          onNavigate={navigateToSection} onShelfNavigate={navigateToShelf} />
+        <Sidebar activeSection={activeSection} activeShelf={activeShelf} activeCommunity={activeCommunity} archiveOpen={archiveOpen}
+          onNavigate={navigateToSection} onShelfNavigate={navigateToShelf} onCommunityNavigate={navigateToCommunity} />
         <div className="container">
           <MobileSectionNav activeSection={activeSection} onNavigate={navigateToSection} />
           <AboutSection />
           <ExperienceSection />
-          <ProjectsSection onOpen={setOpenProject} />
-          <CommunitiesSection />
+          <CommunitiesSection archiveOpen={archiveOpen} onArchiveChange={setArchiveOpen} />
           <PhilosophySection />
           <ShelfSection />
         </div>
       </div>
     </main>
-    {openProject && <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />}
-  </>;
+    <Footer cursorReveal />
+    <div className="portfolio-agents" data-cursor-layer aria-hidden="true" />
+  </div>;
 }

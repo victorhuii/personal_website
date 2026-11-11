@@ -1,29 +1,26 @@
-import { useCallback, useState } from "react";
-import WorkCover from "../components/WorkCover";
+import { useCallback, useRef, useState } from "react";
+import WorkCard from "../components/WorkCard";
 import WorkProjectDialog from "../components/WorkProjectDialog";
-import { WORK_INTRO, WORK_PROJECTS } from "../content/workProjects";
+import useCursorReveals from "../hooks/useCursorReveals";
+import { COMPANY_WORK } from "../content/workProjects";
 import "../styles/work.css";
 
 export default function WorkPage() {
+  const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+  useCursorReveals(rootRef, true, 100);
   const [selected, setSelected] = useState(null);
   const closed = useCallback(() => setSelected(null), []);
+  const open = (project, trigger) => { triggerRef.current = trigger; setSelected(project); };
   return <>
-    <main className="work-main gutter">
+    <main className="work-main gutter" ref={rootRef} data-cursor-root data-cursor-scope="work">
       <div className="work-container">
-        <div className="work-intro"><h2>{WORK_INTRO.heading}</h2><p>{WORK_INTRO.description}</p></div>
-        <div className="work-grid">
-          {WORK_PROJECTS.map((project, index) => <button type="button" className="work-card" key={project.id}
-            style={{ "--work-stagger": `${index * 80}ms` }} onClick={() => setSelected(project)}
-            aria-haspopup="dialog" aria-controls="work-project-dialog" aria-label={`Open ${project.title}${project.template ? " template" : ""}`}>
-            <div className="work-card-frame"><WorkCover project={project} />
-              <span className="work-card-pill">{project.title}<span>{project.template ? " · Template" : project.year ? ` · ${project.year}` : ""}</span></span>
-            </div>
-            <span className="work-card-mobile-title">{project.title}<span>{project.template ? " · Template" : project.year ? ` · ${project.year}` : ""}</span></span>
-            <span className="work-card-description">{project.summary}</span>
-          </button>)}
-        </div>
+        <section id="work-companies" className="work-grid" aria-label="Company work">
+          {COMPANY_WORK.map((project, index) => <WorkCard key={project.id} project={project} index={index} onOpen={open} cursorReveal />)}
+        </section>
       </div>
+      <div className="portfolio-agents" data-cursor-layer aria-hidden="true" />
     </main>
-    {selected && <WorkProjectDialog project={selected} projects={WORK_PROJECTS} onSelect={setSelected} onClosed={closed} />}
+    {selected && <WorkProjectDialog project={selected} projects={COMPANY_WORK} triggerRef={triggerRef} onSelect={setSelected} onClosed={closed} />}
   </>;
 }

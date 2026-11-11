@@ -3,9 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "node --test src/utils/*.test.js",
+    "check:hosting": "node scripts/check-hosting.mjs",
+    "check": "npm test && npm run build && npm run check:hosting",
     "lint": "eslint .",
     "preview": "vite preview"
   },

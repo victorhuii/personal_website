@@ -48,7 +48,9 @@ export default function WorkCover({ project, priority = false }) {
     else video.play().catch(() => {});
   }, [reduced, source]);
   return <div className="work-cover" style={{ "--cover-a": project.tones?.[0] || "#e4edf3", "--cover-b": project.tones?.[1] || "#c9d8e4", "--cover-c": project.tones?.[2] || "#e9ede9" }}>
-    <CoverArtwork project={project} />
+    {project.logo ? <div className="work-company-cover" style={{ background: project.logoBackground }}>
+      <img src={project.logo} alt={project.title} loading={priority ? "eager" : "lazy"} />
+    </div> : <CoverArtwork project={project} />}
     {cover.video ? <video key={source} className={`work-cover-media${ready ? " is-ready" : ""}`}
       src={cover.video} poster={cover.poster || undefined} autoPlay={!reduced} muted loop playsInline
       preload="metadata" aria-label={cover.alt || project.title}

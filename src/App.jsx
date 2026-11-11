@@ -11,14 +11,19 @@ import "./styles/ripple.css";
 import "./styles/landing.css";
 import "./styles/page-entrance.css";
 import WorkPage from "./pages/WorkPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import MissionGuardPage from "./pages/MissionGuardPage";
 
 import TopHeader from "./components/TopHeader";
+import GooglyCursor from "./components/GooglyCursor";
 import Footer from "./components/Footer";
 
 import AboutPage from "./pages/AboutPage";
 import IntroPage from "./pages/IntroPage";
+import PortfolioPage from "./pages/PortfolioPage";
 import LandingPage from "./pages/LandingPage";
 import RipplePage from "./pages/RipplePage";
+import "./styles/interaction-motion.css";
 
 
 function pageFromHash() {
@@ -74,7 +79,10 @@ function pageFromHash() {
   if (
     [
       "work",
+      "projects",
+      "projects/missionguard",
       "about",
+      "photography",
       "creation-2",
     ].includes(
       page
@@ -89,7 +97,7 @@ function pageFromHash() {
 
 
 
-export default function App() {
+function AppContent() {
   const [
     page,
     setPage,
@@ -176,20 +184,21 @@ export default function App() {
   =====================================
   PORTFOLIO
 
-  Your old intro / art collage.
+  Signature intro, followed by the photography gallery.
   =====================================
   */
 
   if (
     page === "portfolio"
   ) {
+    return <IntroPage onEnter={() => { window.location.hash = "#/photography"; }} />;
+  }
+
+  if (
+    page === "photography"
+  ) {
     return (
-      <IntroPage
-        onEnter={() => {
-          window.location.hash =
-            "#/about";
-        }}
-      />
+      <PortfolioPage />
     );
   }
 
@@ -230,37 +239,22 @@ export default function App() {
 
         <AboutPage />
 
-
-        <Footer />
-
       </div>
     );
   }
 
 
-  /*
-  =====================================
-  WORK
-
-  Still blank until you build it.
-  =====================================
-  */
+  /* Work and Projects share the main site header and footer. */
 
   if (
-    page === "work"
+    page === "work" || page === "projects" || page === "projects/missionguard"
   ) {
     return (
       <div className="page">
 
-        <TopHeader page={sitePage} />
-        {sitePage === "work" ? (
-          <><WorkPage /><Footer /></>
-        ) : sitePage === "about" ? (
-          <><AboutPage /><Footer /></>
-        ) : (
-          /* Keep your existing Portfolio/other-tab rendering here. */
-          <main className="blank-page" />
-        )}
+        <TopHeader page={page.startsWith("projects") ? "projects" : page} />
+        {page === "projects/missionguard" ? <MissionGuardPage /> : page === "projects" ? <ProjectsPage /> : <WorkPage />}
+        <Footer />
 
       </div>
     );
@@ -270,4 +264,11 @@ export default function App() {
   return (
     <LandingPage />
   );
+}
+
+export default function App() {
+  return <>
+    <GooglyCursor />
+    <AppContent />
+  </>;
 }

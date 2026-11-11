@@ -1,0 +1,66 @@
+.philosophy-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: #74747f;
+  font: 500 11px/1.4 var(--font);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+}
+.philosophy-notes {
+  column-count: 3;
+  column-gap: 12px;
+  margin-top: 20px;
+}
+.philosophy-note {
+  display: flow-root;
+  break-inside: avoid;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e9e5df;
+  border-radius: 4px;
+  background: #f8f6f2;
+  color: #504940;
+}
+.philosophy-note blockquote {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -.015em;
+  text-wrap: pretty;
+}
+.philosophy-note em { color: var(--brown-600); }
+.philosophy-sketch {
+  display: block;
+  float: right;
+  width: 24px;
+  height: 24px;
+  margin: 0 0 6px 10px;
+  color: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .5;
+}
+.philosophy-note-direction,
+.philosophy-note-future,
+.philosophy-note-moon { background: #f7f1ea; border-color: #eaded2; }
+.philosophy-note-belief,
+.philosophy-note-pressure { background: #fbf7f2; border-color: #eee5db; }
+.philosophy-note-ambition,
+.philosophy-note-courage { background: #f8f5f0; border-color: #eae3da; }
+
+@media (max-width: 1000px) {
+  .philosophy-notes { column-count: 2; }
+}
+@media (max-width: 560px) {
+  .philosophy-notes { column-count: 1; }
+  .philosophy-note { margin-bottom: 10px; }
+}

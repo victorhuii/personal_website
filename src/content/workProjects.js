@@ -2,6 +2,31 @@
 // These four entries are explicitly marked templates, not claimed experience.
 // Duplicate an entry, give it a unique id, and replace its content with your work.
 // Assets go in public/work/; paths below then look like "/work/project-cover.jpg".
+import { EXPERIENCE } from "./siteContent";
+
+// Company cards use the same dates and accomplishments as the About page.
+// Add org, with, gallery, or links to an experience when those details are ready.
+export const COMPANY_WORK = EXPERIENCE.map(experience => ({
+  id: `company-${experience.company.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+  kind: "experience",
+  title: experience.company,
+  year: experience.period,
+  role: experience.role,
+  org: experience.org || "—",
+  with: experience.with || [],
+  logo: experience.logo,
+  logoBackground: experience.logoBackground,
+  summary: experience.summary,
+  problem: experience.summary,
+  overviewLabel: "Responsibilities",
+  overviewBullets: experience.highlights,
+  sections: [
+    { label: "Skills & tools", paragraphs: [experience.tools.join(" · ")] },
+    { label: "Key achievements", bullets: experience.achievements },
+  ],
+  gallery: experience.gallery || [],
+  links: experience.links || [],
+}));
 
 const templateSections = () => [
   {
@@ -41,11 +66,6 @@ const template = (id, title, summary, category, variant, tones, mark) => ({
     { label: "Write-up", href: "" },
   ],
 });
-
-export const WORK_INTRO = {
-  heading: "Selected work",
-  description: "Software engineering, data systems & analytics.",
-};
 
 export const WORK_PROJECTS = [
   template("software-project", "Software project", "Your strongest full-stack build.", "Software engineering", "software", ["#e4edf3", "#c9d8e4", "#e9ede9"], "</>"),

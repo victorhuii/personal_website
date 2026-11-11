@@ -1,0 +1,24 @@
+.typed-tagline {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.typed-tagline-role { font-weight: 700; }
+
+.typed-tagline-cursor {
+  display: inline-block;
+  width: 1px;
+  height: .9em;
+  margin-left: 3px;
+  background: currentColor;
+  vertical-align: -.1em;
+  animation: typedTaglineBlink 800ms steps(1, end) infinite;
+}
+
+@keyframes typedTaglineBlink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typed-tagline-cursor { display: none; }
+}

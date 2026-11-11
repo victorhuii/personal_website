@@ -1,0 +1,20 @@
+.about-cursor-page {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* The header keeps its entrance; content waits for its assigned cursor. */
+.about-cursor-page .site-main,
+.about-cursor-page .site-main :is(.side-nav, .section-nav-wrap, .about-photo, .about-copy > h2, .about-meta, .about-copy > p),
+.about-cursor-page .site-main .content-layout > .container > section,
+.about-cursor-page .site-main :is(.project-card, .side-nav-sublink) {
+  animation: none;
+}
+
+.about-cursor-page .scroll-reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}

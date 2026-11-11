@@ -6,10 +6,41 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Yuji Boku Name";
+  src: url("/fonts/YujiBoku-name.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+4FCA, U+6607;
+}
+
+@font-face {
+  font-family: "Yuji Boku Name";
+  src: url("/fonts/MaShanZheng-surname.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+8BB8;
+}
+
+.about-name-heading {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 430px);
+}
+.about-copy .about-name-heading h2 {
+  position: relative;
+  z-index: 1;
+  width: max-content;
+  max-width: 100%;
+  font-size: clamp(30px, 2.35vw, 34px);
+}
 /* Top-right atmosphere. Change these RGB values to adjust the palette. */
 .site-heading {
-  --header-mist-blue: 127, 156, 182;
-  --header-mist-sage: 159, 181, 171;
+  --header-mist-tan: 211, 179, 146;
+  --header-mist-sand: 233, 209, 185;
+  --header-mist-cream: 249, 236, 218;
   position: relative;
   isolation: isolate;
   overflow: clip;
@@ -19,29 +50,128 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: min(960px, 76%);
-  height: 300px;
+  width: 100%;
+  height: 240px;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 98% 0%, rgba(var(--header-mist-blue), .27), rgba(var(--header-mist-blue), 0) 72%),
-    radial-gradient(ellipse at 63% 0%, rgba(var(--header-mist-sage), .15), rgba(var(--header-mist-sage), 0) 65%);
+    radial-gradient(ellipse at 100% 0%, rgba(var(--header-mist-tan), .38), rgba(var(--header-mist-tan), 0) 72%),
+    radial-gradient(ellipse at 68% -10%, rgba(var(--header-mist-sand), .34), rgba(var(--header-mist-sand), 0) 68%),
+    radial-gradient(ellipse at 36% -15%, rgba(var(--header-mist-cream), .4), rgba(var(--header-mist-cream), 0) 68%);
 }
 .site-heading-inner { position: relative; }
-
-.about-photo { position: relative; }
-.photo-greeting {
-  position: absolute;
-  top: 235px;
-  right: calc(100% - 16px);
-  width: 126px;
-  color: #71717a;
-  font: 400 21px/1.15 "Patrick Hand Local", "Segoe Print", cursive;
-  text-align: center;
-  transform: rotate(-2deg);
+.header-origin-signature {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  padding-top: 6px;
+}
+.header-sleeping-dog {
+  display: block;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
   pointer-events: none;
 }
-.photo-greeting svg { display: block; width: 90px; height: 59px; margin: -3px 0 0 41px; }
+.header-origin {
+  position: absolute;
+  top: 32px;
+  right: 8px;
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+  pointer-events: none;
+}
+.header-origin-flight { position: relative; display: block; width: 100%; height: 35px; }
+.header-origin-flight svg {
+  display: block;
+  width: calc(100% - 16px);
+  height: 35px;
+  overflow: visible;
+  stroke: var(--brown-500);
+  stroke-width: 1.8;
+  stroke-dasharray: 1 5;
+  stroke-linecap: round;
+}
+.header-origin-plane {
+  position: absolute;
+  /* Follow the SVG's centered 260px drawing area, including its 16px inset. */
+  right: calc((100% - 276px) / 2);
+  bottom: 2px;
+  color: var(--brown-500);
+  font-size: 17px;
+  line-height: 1;
+  transform: rotate(15deg);
+}
+.header-origin-route {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #81808a;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.header-origin-state {
+  padding: 7px 10px;
+  border: 1px solid rgba(135, 91, 61, .38);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .58);
+  white-space: nowrap;
+}
+.header-origin-transition { display: grid; justify-items: center; gap: 2px; width: 34px; flex: none; transform: translateY(-5px); }
+.header-origin-transition > span { color: var(--brown-500); font-size: 10px; line-height: 1; letter-spacing: 0; }
+.header-origin-transition svg {
+  display: block;
+  width: 100%;
+  height: 10px;
+  stroke: var(--brown-500);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.header-origin-name {
+  color: rgba(151, 122, 87, .32);
+  font-family: "Yuji Boku Name", "STKaiti", "KaiTi", serif;
+  font-size: clamp(36px, 3.4vw, 48px);
+  line-height: 1.1;
+  transform: rotate(-4deg);
+}
+@media (max-width: 1000px) {
+  .header-origin { top: 23px; }
+  .header-origin-name { font-size: 36px; }
+}
+@media (max-width: 560px) {
+  .header-origin { top: 0; right: 0; gap: 3px; }
+  .header-origin-flight, .header-origin-flight svg { height: 26px; }
+  .header-origin-plane { right: calc((100% - 202px) / 2); bottom: 1px; font-size: 14px; }
+  .header-origin-route { gap: 3px; font-size: 7px; letter-spacing: .03em; }
+  .header-origin-state { padding: 5px 6px; }
+  .header-origin-transition { width: 22px; gap: 0; transform: translateY(-4px); }
+  .header-origin-transition > span { font-size: 8px; }
+  .header-origin-transition svg { height: 8px; }
+  .header-origin-name { font-size: 29px; }
+  .header-origin-signature { gap: 12px; padding-top: 3px; }
+  .header-sleeping-dog { width: 40px; height: 40px; }
+}
+
+.site-main .about-photo { position: relative; left: -28px; margin-top: 72px; }
+.site-main .about-photo-frame { width: 300px; height: 400px; }
+.photo-greeting {
+  position: relative;
+  width: max-content;
+  margin: 50px 0 0 16px;
+  color: #71717a;
+  font: 400 21px/1.15 "Patrick Hand Local", "Segoe Print", cursive;
+  text-align: left;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.photo-greeting svg { position: absolute; display: block; width: 64px; height: 44px; left: calc(100% + 12px); top: -28px; margin: 0; }
 .photo-greeting path { stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
 
 .about-extras {
@@ -85,19 +215,24 @@
 
 /* At smaller widths, keep the note in the photo column instead of the sidebar. */
 @media (max-width: 1150px) {
-  .photo-greeting { position: relative; top: auto; right: auto; width: 170px; margin: 18px 0 0 4px; text-align: left; transform: rotate(-2deg); }
-  .photo-greeting span br { display: none; }
-  .photo-greeting svg { position: absolute; width: 64px; height: 42px; left: 146px; top: -22px; margin: 0; transform: rotate(-20deg); }
+  .site-main .about-photo { left: -16px; margin-top: 48px; }
+  .site-main .about-photo-frame { width: 280px; height: 370px; }
+  .photo-greeting { margin-left: 0; }
+}
+@media (max-width: 900px) {
+  .site-main .about-photo { left: 0; margin-top: 24px; width: min(320px, 100%); }
+  .site-main .about-photo-frame { width: 100%; height: auto; aspect-ratio: 3 / 4; }
+  .photo-greeting { margin-left: 0; }
 }
 @media (max-width: 800px) {
-  .photo-greeting { margin-top: 18px; margin-bottom: 8px; }
+  .photo-greeting { margin-bottom: 8px; }
   .about-extras { margin-top: 12px; }
 }
 
 /* Entry follows the existing intro sequence; each feature moves as one piece. */
 @media (prefers-reduced-motion: no-preference) {
-  .site-heading::before { animation: aboutHeaderMistEnter 600ms ease-out 100ms backwards; }
-  .site-main .about-extras { animation: aboutDetailsEnter 300ms cubic-bezier(.645,.045,.355,1) 1600ms backwards; }
+  .site-heading::before { animation: aboutHeaderMistEnter var(--motion-enter) var(--motion-out) 100ms backwards; }
+  .site-main .about-extras { animation: aboutDetailsEnter var(--motion-enter) var(--motion-out) 220ms backwards; }
 }
 @keyframes aboutHeaderMistEnter { from { opacity: 0; } to { opacity: 1; } }
 @keyframes aboutDetailsEnter { from { opacity: 0; visibility: hidden; transform: translateY(20px); } to { opacity: 1; visibility: visible; transform: none; } }

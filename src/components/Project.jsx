@@ -6,18 +6,24 @@ function Cover({ project, rounded = true }) {
     <div className="cover" style={rounded ? undefined : { borderRadius: 0 }}>
       {project.video ? <video src={project.video} autoPlay muted loop playsInline />
         : project.image ? <img src={project.image} alt={project.company} />
-          : <div className="cover-fallback" style={style}><span>{project.company}</span></div>}
+          : <div className={`cover-fallback${project.logo ? " company-cover" : ""}`} style={style}>{project.logo
+            ? <img className="company-cover-logo" src={project.logo} alt="" loading="lazy" />
+            : <span>{project.company}</span>}</div>}
     </div>
   );
 }
 
 export default function ProjectCard({ project, index, onOpen }) {
+  const hasDetails = project.body?.length > 0 || Boolean(project.mission);
+  const Card = hasDetails ? "button" : "div";
   return (
-    <button className="project-card" style={{ animationDelay: `${index * 0.08}s` }}
-      onClick={() => onOpen(project)} aria-label={`Open ${project.company} project`}>
+    <Card data-cursor-reveal="image" className={`project-card${hasDetails ? "" : " project-card-static"}`} style={{ animationDelay: `${index * 0.08}s` }}
+      type={hasDetails ? "button" : undefined}
+      onClick={hasDetails ? () => onOpen(project) : undefined}
+      aria-label={hasDetails ? `Open ${project.company} project` : undefined}>
       <Cover project={project} />
-      <span className="project-pill"><b>{project.company}</b><i>•</i><em>{project.year}</em></span>
-    </button>
+      <span className={`project-pill${project.logo ? " company-pill" : ""}`}><b>{project.company}</b>{project.year && <>{!project.logo && <i>•</i>}<em>{project.year}</em></>}</span>
+    </Card>
   );
 }
 

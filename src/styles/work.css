@@ -5,6 +5,7 @@
 .work-intro h2 { font-size: 18px; font-weight: 500; color: #3f3f46; }
 .work-intro p { color: #71717a; font-size: 14px; }
 .work-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 24px; }
+.work-additional-projects { margin-top: 48px; }
 .work-card { display: flex; flex-direction: column; width: 100%; min-width: 0; border: 0; background: transparent; padding: 0; font: inherit; text-align: left; cursor: pointer; color: #18181b; border-radius: 26px; }
 .work-card-frame { position: relative; width: 100%; border-radius: 26px; overflow: hidden; transition: transform 300ms cubic-bezier(.4, 0, .2, 1); }
 .work-card-frame::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(24,24,27,.035); border-radius: inherit; pointer-events: none; }
@@ -14,7 +15,10 @@
 .work-card-description { display: block; padding: 8px 13px 0; color: #71717a; font-size: 16px; line-height: 1.4; opacity: 0; transform: translateY(8px); transition: opacity 300ms ease-out, transform 300ms ease-out; }
 .work-card:hover .work-card-description, .work-card:focus-visible .work-card-description { opacity: 1; transform: none; }
 .work-card-mobile-title { display: none; }
+.work-main[data-cursor-root] .work-card[data-cursor-reveal] { animation: none; }
 .work-cover { position: relative; isolation: isolate; overflow: hidden; width: 100%; aspect-ratio: 678 / 367.625; border-radius: inherit; background: #e4e4e7; }
+.work-company-cover { position: absolute; inset: 0; display: grid; place-items: center; padding: 12% 16%; }
+.work-company-cover img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
 .work-cover-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 500ms ease-out; }
 .work-cover-media.is-ready { opacity: 1; }
 .work-art { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; background: radial-gradient(ellipse at 22% 10%, var(--cover-a), transparent 70%), radial-gradient(ellipse at 78% 80%, var(--cover-b), transparent 70%), var(--cover-c); }
@@ -45,7 +49,7 @@
 .work-art-snippet i:last-child { width: 65%; }
 
 /* Native modal supplies focus containment, background inertness, and Escape. */
-.work-dialog { width: 83vw; max-width: 1400px; height: calc(100svh - 96px); max-height: calc(100svh - 96px); margin: auto; padding: 0; border: 0; border-radius: 26px; background: #fff; color: #52525b; overflow: hidden; box-shadow: 0 24px 90px #18181b1a; transition: width 300ms ease, height 300ms ease, max-height 300ms ease, border-radius 300ms ease; }
+.work-dialog { width: 88vw; max-width: 1400px; height: calc(100svh - 48px); max-height: calc(100svh - 48px); margin: auto; padding: 0; border: 0; border-radius: 26px; background: #fff; color: #52525b; overflow: hidden; box-shadow: 0 24px 90px #18181b1a; transition: width 300ms ease, height 300ms ease, max-height 300ms ease, border-radius 300ms ease; }
 .work-dialog::backdrop { background: #18181b33; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 .work-dialog--expanded { width: 100vw; max-width: none; height: 100svh; max-height: 100svh; border-radius: 0; }
 .work-dialog.is-closing { pointer-events: none; }
@@ -54,13 +58,16 @@
 .work-dialog-control { display: grid; place-items: center; width: 36px; height: 36px; flex: none; border: 0; background: transparent; color: #71717a; border-radius: 50%; corner-shape: round; cursor: pointer; transition: background 200ms, color 200ms; }
 .work-dialog-control:hover { color: #27272a; background: #f4f4f5; }
 .work-dialog-control svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
-.work-dialog-body { max-width: 784px; margin-inline: auto; padding: 26px 24px 80px; }
+.work-dialog-body { max-width: 960px; margin-inline: auto; padding: 48px 48px 80px; }
 .work-project-mark { width: 64px; height: 64px; display: grid; place-items: center; border: 1px solid #e4e4e7; border-radius: 18px; background: #fafafa; color: #52525b; font: 400 24px/1 ui-monospace, monospace; margin-bottom: 32px; }
-.work-project-title { font-size: 36px; line-height: 1.15; font-weight: 400; color: #18181b; margin: 0 0 40px; }
+.work-project-company-logo { width: 88px; height: 88px; padding: 12px; border: 0; margin-bottom: 40px; }
+.work-project-company-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.work-project-title { font-size: 36px; line-height: 1.15; font-weight: 400; color: #18181b; margin: 0 0 52px; }
 .work-template-label { margin: -22px 0 32px; color: #71717a; font-size: 13px; }
-.work-project-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; padding-bottom: 32px; border-bottom: 1px solid #f4f4f5; margin: 0; }
-.work-project-meta dt { color: #71717a; font-size: 15px; margin-bottom: 14px; }
-.work-project-meta dd { margin: 0; color: #52525b; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
+.work-project-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-bottom: 36px; border-bottom: 1px solid #f4f4f5; margin: 0; }
+.work-project-meta dt { color: #a1a1aa; font-size: 16px; margin-bottom: 16px; }
+.work-project-meta dd { margin: 0; color: #52525b; font-size: 16px; line-height: 1.6; overflow-wrap: anywhere; }
+.work-project-person { display: block; }
 .work-project-links { display: flex; flex-wrap: wrap; gap: 12px 24px; padding-top: 20px; font-size: 15px; }
 .work-project-links a { color: #52525b; text-underline-offset: 4px; }
 .work-project-links a:hover { color: #18181b; text-decoration: underline; }

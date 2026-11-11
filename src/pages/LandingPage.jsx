@@ -5,6 +5,9 @@ import {
 } from "react";
 
 import FloatingBackground from "../components/FloatingBackground";
+import MotionRange from "../components/MotionRange";
+import observeAnimationVisibility from "../utils/observeAnimationVisibility";
+import { TOP_PAGES } from "../content/siteContent";
 
 
 const ASCII_CHARACTERS = [
@@ -55,21 +58,6 @@ const SLIDES = [
     verticalBias: 0,
   },
 
-  {
-    id: "moon-gate",
-
-    label:
-      "MOON GATE / SPIRIT LANDSCAPE",
-
-    imageSrc:
-      "/creation/moon-gate-silhouette.png",
-
-    zoom: 1.01,
-
-    horizontalBias: 0,
-
-    verticalBias: 0,
-  },
 ];
 
 
@@ -155,6 +143,15 @@ function LandingAsciiCanvas({
     let lastDraw = 0;
 
     let ready = false;
+    let visible = true;
+
+    function syncAnimation() {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      previousTime = 0;
+      lastDraw = 0;
+      if (ready && visible && !reducedMotion) frame = requestAnimationFrame(animate);
+    }
 
 
     function rebuild() {
@@ -166,6 +163,9 @@ function LandingAsciiCanvas({
       const bounds =
         canvas.getBoundingClientRect();
 
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.4);
+      if (width === bounds.width && height === bounds.height && canvas.width === Math.round(bounds.width * dpr) && canvas.height === Math.round(bounds.height * dpr)) return;
 
       width =
         bounds.width;
@@ -182,13 +182,6 @@ function LandingAsciiCanvas({
       }
 
 
-      const dpr =
-        Math.min(
-          window.devicePixelRatio ||
-            1,
-
-          1.4
-        );
 
 
       canvas.width =
@@ -482,186 +475,52 @@ function LandingAsciiCanvas({
       }
 
 
-      draw(
-        0,
-        1
-      );
+      particles.sort((a, b) => a.darkness - b.darkness);
+      draw(0, 1);
     }
 
 
-    function draw(
-      time,
-      delta
-    ) {
-      context.clearRect(
-        0,
-        0,
-        width,
-        height
-      );
+    function draw(time, delta) {
+      context.clearRect(0, 0, width, height);
+      context.font = `${width < 700 ? 10 : 11.5}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      const ink = darkRef.current ? "255,255,255" : "28,28,27";
+      const strength = (intensityRef.current / 100) * .75;
+      const palette = Array.from({ length: 11 }, (_, level) => `rgba(${ink},${(.18 + level / 10 * .75) * strength})`);
+      const damping = Math.pow(.82, delta);
+      const driftTimeX = time * .00062;
+      const driftTimeY = time * .0005;
+      let previousLevel = -1;
 
-
-      context.font =
-        `${
-          width < 700
-            ? 10
-            : 11.5
-        }px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
-
-
-      context.textAlign =
-        "center";
-
-
-      context.textBaseline =
-        "middle";
-
-
-      const ink =
-        darkRef.current
-          ? "255,255,255"
-          : "28,28,27";
-
-
-      const strength =
-        (
-          intensityRef.current /
-          100
-        ) *
-        0.75;
-
-
-      for (
-        const particle of
-        particles
-      ) {
-
-        if (
-          !reducedMotion
-        ) {
-          const driftX =
-            Math.sin(
-              time *
-                0.00062 +
-                particle.phase
-            ) *
-            1.25;
-
-
-          const driftY =
-            Math.cos(
-              time *
-                0.0005 +
-                particle.phase *
-                  0.72
-            ) *
-            1.05;
-
-
-          const dx =
-            particle.x -
-            pointer.x;
-
-
-          const dy =
-            particle.y -
-            pointer.y;
-
-
-          const distance =
-            Math.hypot(
-              dx,
-              dy
-            ) || 1;
-
-
-          const push =
-            Math.max(
-              0,
-
-              1 -
-                distance /
-                  105
-            ) *
-            2;
-
-
-          particle.vx +=
-            (
-              (
-                particle.homeX +
-                driftX -
-                particle.x
-              ) *
-                0.058 +
-              dx /
-                distance *
-                push
-            ) *
-            delta;
-
-
-          particle.vy +=
-            (
-              (
-                particle.homeY +
-                driftY -
-                particle.y
-              ) *
-                0.058 +
-              dy /
-                distance *
-                push
-            ) *
-            delta;
-
-
-          particle.vx *=
-            Math.pow(
-              0.82,
-              delta
-            );
-
-
-          particle.vy *=
-            Math.pow(
-              0.82,
-              delta
-            );
-
-
-          particle.x +=
-            particle.vx *
-            delta;
-
-
-          particle.y +=
-            particle.vy *
-            delta;
+      for (const particle of particles) {
+        if (!reducedMotion) {
+          const driftX = Math.sin(driftTimeX + particle.phase) * 1.25;
+          const driftY = Math.cos(driftTimeY + particle.phase * .72) * 1.05;
+          const dx = particle.x - pointer.x;
+          const dy = particle.y - pointer.y;
+          // Only nearby particles need the pointer's distance and repulsion.
+          let pushX = 0;
+          let pushY = 0;
+          if (Math.abs(dx) < 105 && Math.abs(dy) < 105) {
+            const distance = Math.hypot(dx, dy) || 1;
+            const push = Math.max(0, 1 - distance / 105) * 2;
+            pushX = dx / distance * push;
+            pushY = dy / distance * push;
+          }
+          particle.vx += ((particle.homeX + driftX - particle.x) * .058 + pushX) * delta;
+          particle.vy += ((particle.homeY + driftY - particle.y) * .058 + pushY) * delta;
+          particle.vx *= damping;
+          particle.vy *= damping;
+          particle.x += particle.vx * delta;
+          particle.y += particle.vy * delta;
         }
-
-
-        const alpha =
-          (
-            0.18 +
-            particle.darkness *
-              0.75
-          ) *
-          strength;
-
-
-        context.fillStyle =
-          `rgba(
-            ${ink},
-            ${alpha}
-          )`;
-
-
-        context.fillText(
-          particle.character,
-          particle.x,
-          particle.y
-        );
+        const level = Math.round(particle.darkness * 10);
+        if (level !== previousLevel) {
+          context.fillStyle = palette[level];
+          previousLevel = level;
+        }
+        context.fillText(particle.character, particle.x, particle.y);
       }
     }
 
@@ -759,14 +618,7 @@ function LandingAsciiCanvas({
         rebuild();
 
 
-        if (
-          !reducedMotion
-        ) {
-          frame =
-            requestAnimationFrame(
-              animate
-            );
-        }
+        syncAnimation();
       };
 
 
@@ -783,6 +635,10 @@ function LandingAsciiCanvas({
     observer.observe(
       canvas
     );
+    const stopWatchingVisibility = observeAnimationVisibility(canvas, active => {
+      visible = active;
+      syncAnimation();
+    });
 
 
     canvas.addEventListener(
@@ -809,6 +665,7 @@ function LandingAsciiCanvas({
 
 
       observer.disconnect();
+      stopWatchingVisibility();
 
 
       cancelAnimationFrame(
@@ -911,14 +768,7 @@ export default function LandingPage() {
             aria-label="Main navigation"
           >
 
-            <a href="#/work">
-              WORK
-            </a>
-
-
-            <a href="#/portfolio">
-              PORTFOLIO
-            </a>
+            {TOP_PAGES.map(label => <a key={label} href={`#/${label.toLowerCase()}`}>{label.toUpperCase()}</a>)}
 
           </nav>
 
@@ -982,13 +832,14 @@ export default function LandingPage() {
                   : "Night canvas"
               }
             >
-              {dark
-                ? "☾"
-                : "☼"}
+              <span className="motion-icon-stack" aria-hidden="true">
+                <span className={`motion-icon${dark ? "" : " is-active"}`}>☼</span>
+                <span className={`motion-icon${dark ? " is-active" : ""}`}>☾</span>
+              </span>
             </button>
 
 
-            <input
+            <MotionRange
               aria-label="ASCII opacity"
 
               type="range"
@@ -1032,8 +883,8 @@ export default function LandingPage() {
 
 
             <p className="landing-description">
-              new grad from
-              berkeley, passionate
+              senior at UC
+              Berkeley, passionate
               for data science, the
               cross section between
               creative and technical

@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
+import { SITE } from "../content/siteContent";
 import "../styles/about-details.css";
 
 // Change this to update both the visible hint and accessible button label.
 const CAT_NAME = "Luna";
 
 // Fill in your real destinations. Unconfigured labels remain plain text.
-// For a local PDF, put resume.pdf in public/ and use "/resume.pdf".
+// Resume labels and paths can be edited in siteContent.js.
 const RECRUITER_LINKS = [
-  { label: "Resume", href: "" },
+  ...SITE.resumes,
   { label: "GitHub", href: "" },
   { label: "LinkedIn", href: "" },
 ];
 
 export function PhotoGreeting() {
   return (
-    <div className="photo-greeting">
-      <span>nice to<br />meet you!</span>
-      <svg viewBox="0 0 110 72" fill="none" aria-hidden="true">
-        <path d="M9 58C35 63 24 25 58 28c18 2 31 0 41-16M88 15l12-4-1 13" />
+    <div className="photo-greeting" data-cursor-reveal="text">
+      <span>nice to meet you!</span>
+      <svg viewBox="0 0 64 44" fill="none" aria-hidden="true">
+        <path d="M3 40H27Q52 40 52 15V5M46 12l6-7 6 7" />
       </svg>
     </div>
   );
@@ -39,7 +40,7 @@ export function AboutCat() {
   };
 
   return (
-    <div className={`about-cat${purring ? " is-purring" : ""}`}>
+    <div className={`about-cat${purring ? " is-purring" : ""}`} data-cursor-reveal="image">
       <span className="about-cat-response" aria-live="polite" aria-atomic="true">
         {purring ? "purr…" : ""}
       </span>
@@ -81,7 +82,7 @@ export function AboutCat() {
 export function AboutExtras() {
   return (
     <div className="about-extras">
-      <nav className="recruiter-links" aria-label="Professional profiles and resume">
+      <nav className="recruiter-links" aria-label="Professional profiles and resume" data-cursor-reveal="text">
         {RECRUITER_LINKS.map(({ label, href }, index) => (
           <span className="recruiter-link-item" key={label}>
             {index > 0 && <span className="recruiter-link-separator" aria-hidden="true">·</span>}
