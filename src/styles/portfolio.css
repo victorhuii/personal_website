@@ -34,11 +34,11 @@
 .portfolio-cover-photo { position: relative; aspect-ratio: 3 / 2; }
 .portfolio-cover-image { position: absolute; inset: 0; overflow: hidden; }
 .portfolio-cover-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.portfolio-cover-copy { padding-left: 2px; }
+.portfolio-cover-copy { min-width: 0; padding: 0; text-align: left; }
 .portfolio-cover-eyebrow { display: block; margin-bottom: 17px; font-size: 9px; letter-spacing: .22em; text-transform: uppercase; opacity: .7; }
-.portfolio-cover-copy h1 { font: 400 clamp(25px, 2.2vw, 34px)/1.18 Georgia, "Times New Roman", serif; letter-spacing: -.025em; white-space: pre-line; }
+.portfolio-cover-copy h1 { font: 400 clamp(25px, 2.2vw, 34px)/1.18 Georgia, "Times New Roman", serif; letter-spacing: -.025em; margin: 0; text-wrap: balance; }
 .portfolio-cover-rule { display: block; width: 35px; height: 1px; margin: 25px 0 22px; background: #fffdf5a6; }
-.portfolio-cover-copy p { max-width: 170px; font-size: 10px; line-height: 1.9; letter-spacing: .1em; }
+.portfolio-cover-copy p { max-width: 22ch; margin: 16px 0 0; font-size: 11px; line-height: 1.7; letter-spacing: .04em; }
 .portfolio-scroll { position: absolute; bottom: 43px; left: calc(50% - 23px); display: grid; place-items: center; width: 46px; height: 46px; padding: 5px; border: 0; background: transparent; color: inherit; transition: transform 250ms ease; }
 .portfolio-scroll svg { width: 32px; height: 32px; }
 .portfolio-scroll:hover { transform: translateY(5px); }

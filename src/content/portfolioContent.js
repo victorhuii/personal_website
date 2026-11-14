@@ -3,8 +3,8 @@
 // Width/height help avoid awkward crops; tone is an optional average RGB color.
 // Add a category below, then use its id on any photo to include it in that filter.
 export const PORTFOLIO = {
-  title: "A little of\nwhat I see.",
-  description: "People, places & passing moments.",
+  title: "The world from my lens.",
+  description: "Capturing moments, people, and places along the way.",
   credit: "A photographic journal by Victor Hui",
   heroImage: "/portfolio/lake.jpg",
   heroAlt: "The bow of a wooden boat on a quiet lake surrounded by forest and mountains",

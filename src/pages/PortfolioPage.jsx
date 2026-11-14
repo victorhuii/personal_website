@@ -58,14 +58,11 @@ function PortfolioCover({ onExplore, onReady, ready }) {
         <div className="portfolio-cover-image" data-cursor-reveal="image" data-reveal-priority="0"><img src={PORTFOLIO.heroImage} alt={PORTFOLIO.heroAlt} fetchPriority="high" onLoad={onReady} onError={onReady} /></div>
       </div>
       <div className="portfolio-cover-copy" data-cursor-reveal="text" data-reveal-priority="1">
-        <span className="portfolio-cover-eyebrow">The portfolio</span>
         <h1 id="portfolio-title">{PORTFOLIO.title}</h1>
-        <span className="portfolio-cover-rule" aria-hidden="true" />
         <p>{PORTFOLIO.description}</p>
       </div>
     </div>
     <button type="button" className="portfolio-scroll" onClick={onExplore} aria-label="Explore the photo collection" data-cursor-reveal="text" data-reveal-priority="5"><Arrow /></button>
-    <span className="portfolio-cover-index" aria-hidden="true" data-cursor-reveal="text" data-reveal-priority="6">01 — 0{PHOTO_CATEGORIES.length - 1}</span>
   </section>;
 }
 
