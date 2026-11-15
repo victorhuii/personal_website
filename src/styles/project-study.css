@@ -141,3 +141,6 @@
   .project-action { transition: scale 120ms var(--motion-out), background-color var(--motion-enter) var(--motion-out), border-color var(--motion-enter) var(--motion-out); }
   .project-action:active { scale: .97; transition-duration: 0ms; }
 }
+
+.featured-project + .featured-project { margin-top: clamp(64px, 8vw, 112px); }
+.mars-terrain-screenshot { max-width: 800px; margin-inline: auto; }

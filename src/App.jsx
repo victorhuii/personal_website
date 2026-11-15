@@ -13,6 +13,7 @@ import "./styles/page-entrance.css";
 import WorkPage from "./pages/WorkPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import MissionGuardPage from "./pages/MissionGuardPage";
+import MarsTerrainPage from "./pages/MarsTerrainPage";
 
 import TopHeader from "./components/TopHeader";
 import GooglyCursor from "./components/GooglyCursor";
@@ -81,6 +82,7 @@ function pageFromHash() {
       "work",
       "projects",
       "projects/missionguard",
+      "projects/mars-terrain",
       "about",
       "photography",
       "creation-2",
@@ -247,13 +249,13 @@ function AppContent() {
   /* Work and Projects share the main site header and footer. */
 
   if (
-    page === "work" || page === "projects" || page === "projects/missionguard"
+    page === "work" || page === "projects" || page === "projects/missionguard" || page === "projects/mars-terrain"
   ) {
     return (
       <div className="page">
 
         <TopHeader page={page.startsWith("projects") ? "projects" : page} />
-        {page === "projects/missionguard" ? <MissionGuardPage /> : page === "projects" ? <ProjectsPage /> : <WorkPage />}
+        {page === "projects/mars-terrain" ? <MarsTerrainPage /> : page === "projects/missionguard" ? <MissionGuardPage /> : page === "projects" ? <ProjectsPage /> : <WorkPage />}
         <Footer />
 
       </div>
